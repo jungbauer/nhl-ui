@@ -14,6 +14,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/nhl-ui/", // here for GitHub Pages hosting
   plugins: [
     VueRouter(),
     Layouts(),
@@ -76,5 +77,12 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    proxy: {
+      "/api": {
+        target: "https://api-web.nhle.com/v1",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
 })
