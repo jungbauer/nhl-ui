@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  Standings
+  <StandingsView />
 </template>
 
 <style scoped lang="sass">
