@@ -1,9 +1,9 @@
 <script setup>
 const props = defineProps(["team"]);
+const router = useRouter();
 
 const goToSchedule = () => {
-  console.log("goto click")
-  // router.push(`${import.meta.env.BASE_URL}schedule/${props.team.teamAbbrev}`);
+  router.push(`/schedule/${props.team.teamAbbrev}`);
 };
 </script>
 
