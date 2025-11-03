@@ -30,6 +30,7 @@ const mapApiGame = (game) => {
     homeTeam: game.homeTeam,
     awayTeam: game.awayTeam,
     focusWin: focusWin(game.homeTeam, game.awayTeam),
+    gameOutcome: game.gameOutcome,
   };
 };
 
@@ -57,6 +58,11 @@ onMounted(async () => {
 <template>
   <v-container class="d-flex justify-center w-75">
     <v-sheet :elevation="1" class="w-100" rounded>
+      <div v-if="focusTeam">
+        <img :src="focusTeam.logo" alt="logo" class="logo" />
+        <div>{{ focusTeam.placeName.default }} {{ focusTeam.commonName.default }}</div>
+      </div>
+
       <v-select
         :width="200"
         label="Select"
@@ -75,5 +81,8 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="sass">
-
+.logo
+  width: 100px
+  height: 100px
+  object-fit: contain
 </style>

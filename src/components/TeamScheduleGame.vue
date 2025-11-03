@@ -8,36 +8,37 @@ const props = defineProps(["game"]);
       <v-sheet
         v-bind="props"
         :elevation="isHovering ? 5 : 1"
-        class="test"
+        class="sheet"
         rounded
         color="blue-grey-lighten-5"
       >
         <div
           class="game-grid"
-          :class="{
-          'future-game': game.gameState === 'FUT',
-      'focus-win': game.focusWin && !(game.gameState === 'FUT'),
-      'focus-loss': !game.focusWin && !(game.gameState === 'FUT'),
-    }"
         >
           <div>
-            <div>{{ game.gameDate }}</div>
-            <div>{{ game.gameState }}</div>
+            {{ game.gameDate }}
           </div>
-          <div>
+          <div
+            class="color-div"
+            :class="{'future-game': game.gameState === 'FUT','focus-win': game.focusWin && !(game.gameState === 'FUT'),'focus-loss': !game.focusWin && !(game.gameState === 'FUT'),}"
+          ></div>
+          <div class="team-grid">
             <div>
               <img :src="game.homeTeam.logo" alt="logo" class="logo" />
             </div>
-            <!--      <div>{{ game.homeTeam.abbrev }}</div>-->
-            <div>{{ game.homeTeam.score }}</div>
+            <div class="score">{{ game.homeTeam.score }}</div>
           </div>
-          <div>VS</div>
-          <div>
+          <div class="versus">
+            <div>VS</div>
+            <div v-if="game.gameState !== 'FUT' && game.gameOutcome.lastPeriodType !== 'REG'">
+              ({{ game.gameOutcome.lastPeriodType }})
+            </div>
+          </div>
+          <div class="team-grid">
             <div>
               <img :src="game.awayTeam.logo" alt="logo" class="logo" />
             </div>
-            <!--      <div>{{ game.awayTeam.abbrev }}</div>-->
-            <div>{{ game.awayTeam.score }}</div>
+            <div class="score">{{ game.awayTeam.score }}</div>
           </div>
         </div>
       </v-sheet>
@@ -46,25 +47,30 @@ const props = defineProps(["game"]);
 </template>
 
 <style scoped lang="sass">
-.test:hover
+.sheet
+  margin: 4px 4px 8px 4px
+
+.sheet:hover
   cursor: pointer
 
 .game-grid
   display: grid
-  grid-template-columns: auto auto auto auto
+  grid-template-columns: auto auto auto auto auto
   column-gap: 4px
   row-gap: 4px
   justify-content: start
   align-items: center
-
-.game-grid:hover
-  cursor: pointer
-  border: black 2px solid
+  margin: 4px
+  padding: 4px
 
 .logo
   width: 60px
   height: 60px
   object-fit: contain
+
+.color-div
+  height: 100%
+  width: 10px
 
 .future-game
   background-color: darkgray
@@ -74,4 +80,19 @@ const props = defineProps(["game"]);
 
 .focus-loss
   background-color: #f3a4a4
+
+.team-grid
+  display: grid
+  grid-template-columns: auto auto
+  align-items: center
+
+.versus
+  padding: 10px
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.score
+  font-weight: bold
+  font-size: x-large
 </style>
