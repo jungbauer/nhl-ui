@@ -16,7 +16,7 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   base: "/nhl-ui/", // here for GitHub Pages hosting
   plugins: [
-    VueRouter(),
+    VueRouter({}),
     Layouts(),
     Vue({
       template: { transformAssetUrls },
