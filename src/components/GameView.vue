@@ -1,5 +1,6 @@
 <script setup>
 import useFetch from "@/utils/useFetch.js";
+import GameViewGoals from "@/components/GameViewGoals.vue";
 
 const props = defineProps(["gameId"])
 
@@ -91,23 +92,7 @@ onMounted(async () => {
 
         <hr />
 
-        <div class="goals">
-          <div class="home-goals">
-            <div v-for="(goal, i) in playData.homeGoals" :key="'hg' + i">
-              {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-              {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-              <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-            </div>
-          </div>
-          <div></div>
-          <div class="away-goals">
-            <div v-for="(goal, i) in playData.awayGoals" :key="'ag' + i">
-              {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-              {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-              <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-            </div>
-          </div>
-        </div>
+        <GameViewGoals :homeGoals="playData.homeGoals" :awayGoals="playData.awayGoals"/>
       </div>
       <hr />
 
@@ -127,11 +112,6 @@ onMounted(async () => {
 .logo-grid
   display: grid
   place-items: center
-
-.headshot
-  width: 100px
-  height: 100px
-  object-fit: contain
 
 .stats
   display: grid
@@ -169,11 +149,6 @@ onMounted(async () => {
 
 .last-period
   font-size: small
-
-.goals
-  display: grid
-  grid-template-columns: auto 50px auto
-  justify-content: center
 
 #rink-container
   display: flex
