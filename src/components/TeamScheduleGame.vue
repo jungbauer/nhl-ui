@@ -1,5 +1,12 @@
 <script setup>
+const router = useRouter();
 const props = defineProps(["game"]);
+
+const goToGame = () => {
+  if (props.game.gameState !== 'FUT') {
+    router.push(`/game_${props.game.id}`);
+  }
+};
 </script>
 
 <template>
@@ -11,6 +18,7 @@ const props = defineProps(["game"]);
         class="sheet"
         rounded
         color="blue-grey-lighten-5"
+        @click="goToGame"
       >
         <div
           class="game-grid"
