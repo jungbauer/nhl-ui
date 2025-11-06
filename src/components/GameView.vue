@@ -61,19 +61,21 @@ onMounted(async () => {
                 {{ playData.homeTeam.placeName.default }} {{ playData.homeTeam.commonName.default }}
               </div>
             </div>
-            <div>
-              <div>{{ playData.homeTeam.score }}</div>
-              <div>({{ playData.homeTeam.sog }})</div>
+            <div class="score-grid">
+              <div class="score">{{ playData.homeTeam.score }}</div>
+              <div class="sog">({{ playData.homeTeam.sog }})</div>
             </div>
           </div>
-          <div>
+          <div class="versus">
             <div>VS</div>
-            <div>{{ playData.gameOutcome.lastPeriodType }}</div>
+            <div v-if="playData.gameOutcome.lastPeriodType !== 'REG'" class="last-period">
+              ({{ playData.gameOutcome.lastPeriodType }})
+            </div>
           </div>
           <div class="away-stats">
-            <div>
-              <div>{{ playData.awayTeam.score }}</div>
-              <div>({{ playData.awayTeam.sog }})</div>
+            <div class="score-grid">
+              <div class="score">{{ playData.awayTeam.score }}</div>
+              <div class="sog">({{ playData.awayTeam.sog }})</div>
             </div>
             <div>
               <div class="logo-grid">
@@ -133,16 +135,40 @@ onMounted(async () => {
 
 .stats
   display: grid
-  grid-template-columns: auto 50px auto
+  grid-template-columns: auto auto auto
   justify-content: center
+  align-items: center
+  column-gap: 12px
 
 .home-stats
   display: grid
   grid-template-columns: auto auto
+  align-items: center
+  column-gap: 8px
 
 .away-stats
   display: grid
   grid-template-columns: auto auto
+  align-items: center
+  column-gap: 8px
+
+.score-grid
+  display: grid
+  place-items: center
+
+.score
+  font-weight: bold
+  font-size: xx-large
+
+.sog
+  font-size: small
+
+.versus
+  display: grid
+  place-items: center
+
+.last-period
+  font-size: small
 
 .goals
   display: grid
