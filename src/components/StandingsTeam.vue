@@ -19,7 +19,7 @@ const goToSchedule = () => {
         @click="goToSchedule"
       >
         <div class="parent">
-          <div class="team-logo" @click="goToSchedule">
+          <div class="team-logo">
             <img :src="team.teamLogo" alt="logo" class="logo" />
           </div>
           <div class="team">
