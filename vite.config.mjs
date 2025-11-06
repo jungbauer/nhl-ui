@@ -11,11 +11,13 @@ import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/nhl-ui/", // here for GitHub Pages hosting
   plugins: [
+    vueDevTools(),
     VueRouter({}),
     Layouts(),
     Vue({
