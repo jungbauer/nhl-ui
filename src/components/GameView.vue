@@ -27,17 +27,6 @@ onMounted(async () => {
     );
   });
 
-  // split home and away goals
-  playData.value.homeGoals = [];
-  playData.value.awayGoals = [];
-  playData.value.goals.forEach((goal) => {
-    if (goal.details.eventOwnerTeamId === playData.value.homeTeam.id) {
-      playData.value.homeGoals.push(goal);
-    } else {
-      playData.value.awayGoals.push(goal);
-    }
-  });
-
   mountComplete.value = true;
 
   // const canvas = document.getElementById("rink");
@@ -92,7 +81,11 @@ onMounted(async () => {
 
         <hr />
 
-        <GameViewGoals :homeGoals="playData.homeGoals" :awayGoals="playData.awayGoals"/>
+        <GameViewGoals
+          :allGoals="playData.goals"
+          :homeTeamId="playData.homeTeam.id"
+          :awayTeamId="playData.awayTeam.id"
+        />
       </div>
       <hr />
 
