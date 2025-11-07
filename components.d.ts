@@ -13,8 +13,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./src/components/AppBar.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
-    GameView: typeof import('./src/components/GameView.vue')['default']
-    GameViewGoals: typeof import('./src/components/GameViewGoals.vue')['default']
+    GameView: typeof import('./src/components/game/GameView.vue')['default']
+    GameViewGoals: typeof import('./src/components/game/GameViewGoals.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

@@ -1,6 +1,6 @@
 <script setup>
 import useFetch from "@/utils/useFetch.js";
-import GameViewGoals from "@/components/GameViewGoals.vue";
+import GameViewGoals from "@/components/game/GameViewGoals.vue";
 
 const props = defineProps(["gameId"])
 
