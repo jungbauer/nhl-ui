@@ -1,4 +1,6 @@
 <script setup>
+import GoalsHomeAway from "@/components/game/GoalsHomeAway.vue";
+
 const props = defineProps(["allGoals", "homeTeamId", "awayTeamId"]);
 
 const periodSplit = ref(false);
@@ -77,140 +79,34 @@ onMounted(() => {
     inset
   ></v-switch>
   <v-divider />
-  <div v-show="!periodSplit" class="all-goals">
-    <div class="home-goals">
-      <div v-for="(goal, i) in homeGoals" :key="'hg' + i">
-        {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-        {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-        <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-      </div>
-    </div>
-    <v-divider vertical></v-divider>
-    <div class="away-goals">
-      <div v-for="(goal, i) in awayGoals" :key="'ag' + i">
-        {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-        {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-        <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-      </div>
-    </div>
-  </div>
+  <GoalsHomeAway v-show="!periodSplit" :keyBase="'f'" :homeGoals="homeGoals" :awayGoals="awayGoals" />
 
   <div v-show="periodSplit">
     <div>
       <div>P1</div>
-      <div class="all-goals">
-        <div class="home-goals">
-          <div v-for="(goal, i) in p1Goals.home" :key="'p1hg' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-        <v-divider vertical></v-divider>
-        <div class="away-goals">
-          <div v-for="(goal, i) in p1Goals.away" :key="'p1ag' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-      </div>
+      <GoalsHomeAway :keyBase="'p1g'" :homeGoals="p1Goals.home" :awayGoals="p1Goals.away" />
     </div>
     <v-divider />
     <div>
       <div>P2</div>
-      <div class="all-goals">
-        <div class="home-goals">
-          <div v-for="(goal, i) in p2Goals.home" :key="'p1hg' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-        <v-divider vertical></v-divider>
-        <div class="away-goals">
-          <div v-for="(goal, i) in p2Goals.away" :key="'p1ag' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-      </div>
+      <GoalsHomeAway :keyBase="'p2g'" :homeGoals="p2Goals.home" :awayGoals="p2Goals.away" />
     </div>
     <v-divider />
     <div>
       <div>P3</div>
-      <div class="all-goals">
-        <div class="home-goals">
-          <div v-for="(goal, i) in p3Goals.home" :key="'p1hg' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-        <v-divider vertical></v-divider>
-        <div class="away-goals">
-          <div v-for="(goal, i) in p3Goals.away" :key="'p1ag' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-      </div>
+      <GoalsHomeAway :keyBase="'p3g'" :homeGoals="p3Goals.home" :awayGoals="p3Goals.away" />
     </div>
     <div v-if="overtimeGoals.all.length > 0">
       <div>Overtime</div>
-      <div class="all-goals">
-        <div class="home-goals">
-          <div v-for="(goal, i) in overtimeGoals.home" :key="'p1hg' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-        <v-divider vertical></v-divider>
-        <div class="away-goals">
-          <div v-for="(goal, i) in overtimeGoals.away" :key="'p1ag' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-      </div>
+      <GoalsHomeAway :keyBase="'otg'" :homeGoals="overtimeGoals.home" :awayGoals="overtimeGoals.away" />
     </div>
     <div v-if="shootoutGoals.all.length > 0">
       <v-divider />
       <div>Shootout</div>
-      <div class="all-goals">
-        <div class="home-goals">
-          <div v-for="(goal, i) in shootoutGoals.home" :key="'p1hg' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-        <v-divider vertical></v-divider>
-        <div class="away-goals">
-          <div v-for="(goal, i) in shootoutGoals.away" :key="'p1ag' + i">
-            {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-            {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
-            <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
-          </div>
-        </div>
-      </div>
+      <GoalsHomeAway :keyBase="'shg'" :homeGoals="shootoutGoals.home" :awayGoals="shootoutGoals.away" />
     </div>
   </div>
 </template>
 
 <style scoped lang="sass">
-.all-goals
-  display: grid
-  grid-template-columns: 45% 10% 45%
-  justify-content: center
-  justify-items: center
-
-.headshot
-  width: 100px
-  height: 100px
-  object-fit: contain
 </style>
