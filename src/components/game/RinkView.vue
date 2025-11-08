@@ -22,14 +22,14 @@ onMounted(() => {
 
   const canvas = document.getElementById("rink");
   canvas.width = 1000;
-  canvas.height = 425;
+  canvas.height = canvas.width / lengthToWidthRatio();
+  // 140px : 1000px => 0.14 : 1
+  const borderRadius = canvas.width * 0.14;
+  canvas.style.borderRadius = borderRadius.toString() + "px";
   // let testGoals = playData.value.goals.map((goal) => {
   //   return { xCoord: goal.details.xCoord, yCoord: goal.details.yCoord };
   // });
   drawRink(canvas, []);
-
-  console.log("length ratio: ", lengthToWidthRatio());
-  console.log("width for 1000L: ", 1000/lengthToWidthRatio());
 });
 
 const widthTest = computed(() => {
@@ -56,6 +56,5 @@ const widthTest = computed(() => {
 canvas
   background: #fff
   border: 1px solid #333
-  border-radius: 140px
   box-shadow: 0 0 10px #aaa
 </style>

@@ -111,8 +111,9 @@ const useRinkDraw = () => {
       return y * scaleY;
     }
 
-    // Draw corner radius
-    // drawCircle(rx(28),ry(28),rx(28), "#46df09");
+    // Draw corner radius for testing -- this was super useful
+    // drawCircle(ctx, rx(28),ry(28),rx(28), "#46df09");
+
     // center line
     drawLine(ctx, rx(100), 0, rx(100), ry(85), "#df0909");
     // goal lines - 11ft
