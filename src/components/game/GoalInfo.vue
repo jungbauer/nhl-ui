@@ -1,13 +1,18 @@
 <script setup>
-defineProps(["goal"])
+const props = defineProps(["goal"])
+
+const displayPeriodSplit = inject("displayPeriodSplit");
+const displayTimeRemaining = inject("displayTimeRemaining");
 </script>
 
 <template>
   <div class="goal">
     <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
     <div>
-      {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
-      {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
+      {{ goal.mainIndex + 1 }}. <span v-if="!displayPeriodSplit">P{{ goal.periodDescriptor.number }}</span>
+      <span v-if="displayTimeRemaining">&nbsp;{{ goal.timeRemaining }}&nbsp;</span>
+      <span v-else>&nbsp;{{ goal.timeInPeriod }}&nbsp;</span>
+      - {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
     </div>
   </div>
 </template>
