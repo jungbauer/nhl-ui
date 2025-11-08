@@ -4,6 +4,8 @@ import GoalsHomeAway from "@/components/game/GoalsHomeAway.vue";
 const props = defineProps(["allGoals", "homeTeamId", "awayTeamId"]);
 
 const periodSplit = ref(false);
+const displayTimeRemaining = ref(true);
+
 const homeGoals = ref([]);
 const awayGoals = ref([]);
 const p1Goals = ref({all: [], home: [], away:[]});
@@ -14,6 +16,8 @@ const shootoutGoals = ref({all: [], home: [], away:[]});
 
 // todo this will break in playoffs, there are no shootouts, need to make shootout more clear, maybe make a periods array of arrays
 // todo NB if there is a shootout, there were no goals in overtime.
+
+// todo make a computed string for time switch label; Time: Remaining -- Time: Clock
 
 onMounted(() => {
   // split goals
@@ -78,6 +82,13 @@ onMounted(() => {
     hide-details
     inset
   ></v-switch>
+  <v-switch
+    v-model="displayTimeRemaining"
+    color="primary"
+    :label="`Time: ${displayTimeRemaining.toString()}`"
+    hide-details
+    inset
+  />
   <v-divider />
   <GoalsHomeAway v-show="!periodSplit" :keyBase="'f'" :homeGoals="homeGoals" :awayGoals="awayGoals" />
 
