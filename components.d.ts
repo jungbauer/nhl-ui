@@ -18,6 +18,7 @@ declare module 'vue' {
     GoalInfo: typeof import('./src/components/game/GoalInfo.vue')['default']
     GoalsHomeAway: typeof import('./src/components/game/GoalsHomeAway.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    RinkView: typeof import('./src/components/game/RinkView.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StandingsTeam: typeof import('./src/components/StandingsTeam.vue')['default']

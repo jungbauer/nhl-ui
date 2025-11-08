@@ -1,6 +1,7 @@
 <script setup>
 import useFetch from "@/utils/useFetch.js";
 import GameViewGoals from "@/components/game/GameViewGoals.vue";
+import RinkView from "@/components/game/RinkView.vue";
 
 const props = defineProps(["gameId"])
 
@@ -28,12 +29,6 @@ onMounted(async () => {
   });
 
   mountComplete.value = true;
-
-  // const canvas = document.getElementById("rink");
-  // let testGoals = playData.value.goals.map((goal) => {
-  //   return { xCoord: goal.details.xCoord, yCoord: goal.details.yCoord };
-  // });
-  // drawRink(canvas, testGoals);
 });
 </script>
 
@@ -89,9 +84,7 @@ onMounted(async () => {
       </div>
       <hr />
 
-      <div id="rink-container">
-        <canvas id="rink" width="1000" height="425"></canvas>
-      </div>
+      <RinkView />
     </v-sheet>
   </v-container>
 </template>
@@ -142,15 +135,4 @@ onMounted(async () => {
 
 .last-period
   font-size: small
-
-#rink-container
-  display: flex
-  justify-content: center
-  margin-top: 30px
-
-canvas
-  background: #fff
-  border: 1px solid #333
-  border-radius: 140px
-  box-shadow: 0 0 10px #aaa
 </style>
