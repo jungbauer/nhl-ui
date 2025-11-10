@@ -12,7 +12,7 @@ const displayTimeRemaining = inject("displayTimeRemaining");
       {{ goal.mainIndex + 1 }}. <span v-if="!displayPeriodSplit">P{{ goal.periodDescriptor.number }}</span>
       <span v-if="displayTimeRemaining">&nbsp;{{ goal.timeRemaining }}&nbsp;</span>
       <span v-else>&nbsp;{{ goal.timeInPeriod }}&nbsp;</span>
-      - {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
+      - {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }} [{{ goal.scoringPlayer.sweaterNumber }}]
     </div>
   </div>
 </template>
