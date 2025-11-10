@@ -12,7 +12,7 @@ const metropolitanDivision = ref([]);
 const centralDivision = ref([]);
 const pacificDivision = ref([]);
 
-const [startFetch] = useFetch("/api/standings/2025-11-01");
+const [startFetch] = useFetch("/api/standings/2025-11-10");
 
 onMounted(async () => {
   let teamsData = await startFetch();
