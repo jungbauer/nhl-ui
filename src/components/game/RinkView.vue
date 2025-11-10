@@ -2,6 +2,8 @@
 import {useDisplay} from "vuetify/framework";
 import useRinkDraw from "@/utils/useRinkDraw.js";
 
+const props = defineProps(["goals"]);
+
 const { mobile, name, height, width} = useDisplay();
 const [drawRink, lengthToWidthRatio] = useRinkDraw()
 
@@ -26,10 +28,7 @@ onMounted(() => {
   // 140px : 1000px => 0.14 : 1
   const borderRadius = canvas.width * 0.14;
   canvas.style.borderRadius = borderRadius.toString() + "px";
-  // let testGoals = playData.value.goals.map((goal) => {
-  //   return { xCoord: goal.details.xCoord, yCoord: goal.details.yCoord };
-  // });
-  drawRink(canvas, []);
+  drawRink(canvas, props.goals);
 });
 
 const widthTest = computed(() => {

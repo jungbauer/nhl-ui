@@ -75,16 +75,15 @@ onMounted(async () => {
         </div>
 
         <hr />
-
         <GameViewGoals
           :allGoals="playData.goals"
           :homeTeamId="playData.homeTeam.id"
           :awayTeamId="playData.awayTeam.id"
         />
-      </div>
-      <hr />
 
-      <RinkView />
+        <hr />
+        <RinkView :goals="playData.goals" />
+      </div>
     </v-sheet>
   </v-container>
 </template>

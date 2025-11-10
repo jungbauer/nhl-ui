@@ -91,8 +91,8 @@ const useRinkDraw = () => {
   function drawGoal(value, index, ctx, rx, ry) {
     const centerX = 200 / 2;
     const centerY = 85 / 2;
-    const x = centerX + value.xCoord;
-    const y = centerY - value.yCoord;
+    const x = centerX + value.details.xCoord;
+    const y = centerY - value.details.yCoord;
     // drawCircle(ctx, rx(x), ry(y), rx(1), "#9109df");
     drawFilledCircle(ctx, rx(x), ry(y), rx(2), "#9109df");
     drawText(ctx, index.toString(), rx(x), ry(y));
