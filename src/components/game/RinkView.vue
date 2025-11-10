@@ -10,25 +10,26 @@ const [drawRink, lengthToWidthRatio] = useRinkDraw()
 const elementRef = ref(null);
 
 onMounted(() => {
-  // console.log("OnMounted rink")
-  // // var widthMounted = this.$refs.rinkContiner.offsetWidth;
-  // const testId = document.getElementById("rink-container");
-  // const test2Id = document.getElementById("rink");
-  //
-  // console.log("testId", testId);
-  // console.log("test2Id", test2Id);
-  // console.log("testId offsetWidth", testId.offsetWidth);
-  // console.log("test2Id offsetWidth", test2Id.offsetWidth);
-  //
-  // console.log("elementRef", elementRef.value.offsetWidth);
+  let portraitDraw = false;
+  if (elementRef.value.offsetWidth < 1000) {
+    console.log("elw: ", elementRef.value.offsetWidth);
+    portraitDraw = true;
+  }
 
   const canvas = document.getElementById("rink");
   canvas.width = 1000;
   canvas.height = canvas.width / lengthToWidthRatio();
   // 140px : 1000px => 0.14 : 1
-  const borderRadius = canvas.width * 0.14;
+  let borderRadius = canvas.width * 0.14;
+
+  if (portraitDraw) {
+    canvas.height = 1000;
+    canvas.width = canvas.height / lengthToWidthRatio();
+    borderRadius = canvas.height * 0.14;
+  }
+
   canvas.style.borderRadius = borderRadius.toString() + "px";
-  drawRink(canvas, props.goals);
+  drawRink(canvas, props.goals, portraitDraw);
 });
 
 const widthTest = computed(() => {
@@ -37,11 +38,8 @@ const widthTest = computed(() => {
 </script>
 
 <template>
-  <div>wt: {{ widthTest }}</div>
-  <div>udw: {{ width }}</div>
   <div v-if="elementRef">elw: {{ elementRef.offsetWidth }}</div>
   <div id="rink-container" ref="elementRef">
-<!--    <canvas id="rink" width="1000" height="425"></canvas>-->
     <canvas id="rink"></canvas>
   </div>
 </template>

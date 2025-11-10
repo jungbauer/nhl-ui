@@ -98,10 +98,22 @@ const useRinkDraw = () => {
     drawText(ctx, index.toString(), rx(x), ry(y));
   }
 
-  const drawRink = (canvas, goals) => {
+  const drawRink = (canvas, goals, portraitDraw = false) => {
     const ctx = canvas.getContext("2d");
-    const scaleX = canvas.width / rinkLength;
-    const scaleY = canvas.height / rinkWidth;
+    let scaleX = canvas.width / rinkLength;
+    let scaleY = canvas.height / rinkWidth;
+
+    if (portraitDraw) {
+      // need to translate and rotate canvas context
+      // Translate to the desired rotation point
+      ctx.translate(canvas.width, 0);
+      // Rotate clockwise by 90 degrees
+      const angleInRadians = (90 * Math.PI) / 180;
+      ctx.rotate(angleInRadians);
+      // adjust scaling
+      scaleX = canvas.width / rinkWidth;
+      scaleY = canvas.height / rinkLength;
+    }
 
     // Helper to convert rink feet to canvas px
     function rx(x) {
