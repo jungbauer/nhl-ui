@@ -7,9 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lintfix": "eslint --ext .js,.vue --fix src",
-    "lint": "eslint --ext .js,.vue src",
-    "format": "prettier .  --write"
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@fontsource/roboto": "5.2.7",
@@ -22,10 +20,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
     "eslint": "^9.35.0",
-    "eslint-config-prettier": "^10.1.8",
     "eslint-config-vuetify": "^4.2.0",
-    "eslint-plugin-prettier": "^5.5.4",
-    "prettier": "^3.6.2",
     "sass-embedded": "^1.92.1",
     "unplugin-auto-import": "^19.3.0",
     "unplugin-fonts": "^1.4.0",
