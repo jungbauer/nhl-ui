@@ -10,6 +10,9 @@ const [drawRink, lengthToWidthRatio] = useRinkDraw()
 const elementRef = ref(null);
 
 onMounted(() => {
+  // console.log("mobile", mobile.value);
+  // console.log("name", name);
+
   let portraitDraw = false;
   if (elementRef.value.offsetWidth < 1000) {
     console.log("elw: ", elementRef.value.offsetWidth);
@@ -38,7 +41,6 @@ const widthTest = computed(() => {
 </script>
 
 <template>
-  <div v-if="elementRef">elw: {{ elementRef.offsetWidth }}</div>
   <div id="rink-container" ref="elementRef">
     <canvas id="rink"></canvas>
   </div>
