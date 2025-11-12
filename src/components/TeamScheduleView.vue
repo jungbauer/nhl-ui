@@ -9,8 +9,11 @@
   const typeItems = [{ title: "Regular Season", value: "regseason" }, { title: "Pre-Season", value: "preseason" }];
 
   const preSeasonGames = ref([]);
-  const regSeasonGames = ref([]);
+  const regPlayedGames = ref([]);
+  const regCurrentGames = ref([]);
+  const futureRegularGames = ref([]);
   const focusTeam = ref();
+  const expansionValue = ref("current");
 
   const [startFetch] = useFetch(`/api/club-schedule-season/${props.teamAbbrev}/${season}`);
 
@@ -42,8 +45,16 @@
         preSeasonGames.value.push(mapApiGame(game));
       }
       if (game.gameType === 2) {
-        regSeasonGames.value.push(mapApiGame(game));
+        if (game.gameState === "FUT") {
+          futureRegularGames.value.push(mapApiGame(game));
+        } else {
+          regCurrentGames.value.push(mapApiGame(game));
+        }
       }
+    }
+
+    if (regCurrentGames.value.length > 10) {
+      regPlayedGames.value = regCurrentGames.value.splice(0, regCurrentGames.value.length - 10);
     }
 
     focusTeam.value = preSeasonGames.value[0].homeTeam.abbrev === props.teamAbbrev ? preSeasonGames.value[0].homeTeam : preSeasonGames.value[0].awayTeam;
@@ -70,7 +81,23 @@
         <TeamScheduleGame v-for="(game, i) in preSeasonGames" :key="'pre' + i" :game="game" />
       </div>
       <div v-if="typeDisplay === 'regseason'">
-        <TeamScheduleGame v-for="(game, i) in regSeasonGames" :key="'reg' + i" :game="game" />
+        <v-expansion-panels v-model="expansionValue">
+          <v-expansion-panel v-if="regPlayedGames.length > 0" :title="'Played Games (' + regPlayedGames.length + ')'" value="played">
+            <v-expansion-panel-text>
+              <TeamScheduleGame v-for="(game, i) in regPlayedGames" :key="'reg' + i" :game="game" />
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <v-expansion-panel :title="'Last ' + regCurrentGames.length + ' Games'" value="current">
+            <v-expansion-panel-text>
+              <TeamScheduleGame v-for="(game, i) in regCurrentGames" :key="'curr' + i" :game="game" />
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <v-expansion-panel :title="'Future Games (' + futureRegularGames.length + ')'" value="future">
+            <v-expansion-panel-text>
+              <TeamScheduleGame v-for="(game, i) in futureRegularGames" :key="'fut' + i" :game="game" />
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </div>
     </v-sheet>
   </v-container>
