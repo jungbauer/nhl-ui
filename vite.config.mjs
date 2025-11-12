@@ -1,17 +1,17 @@
+import { fileURLToPath, URL } from "node:url";
+import Vue from "@vitejs/plugin-vue";
 // Plugins
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import Fonts from 'unplugin-fonts/vite'
-import Layouts from 'vite-plugin-vue-layouts-next'
-import Vue from '@vitejs/plugin-vue'
-import VueRouter from 'unplugin-vue-router/vite'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-
+import AutoImport from "unplugin-auto-import/vite";
+import Fonts from "unplugin-fonts/vite";
+import Components from "unplugin-vue-components/vite";
+import { VueRouterAutoImports } from "unplugin-vue-router";
+import VueRouter from "unplugin-vue-router/vite";
 // Utilities
-import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import { defineConfig } from "vite";
+
+import vueDevTools from "vite-plugin-vue-devtools";
+import Layouts from "vite-plugin-vue-layouts-next";
+import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,24 +27,24 @@ export default defineConfig({
     Vuetify({
       autoImport: true,
       styles: {
-        configFile: 'src/styles/settings.scss',
+        configFile: "src/styles/settings.scss",
       },
     }),
     Components(),
     Fonts({
       google: {
         families: [{
-          name: 'Roboto',
-          styles: 'wght@100;300;400;500;700;900',
+          name: "Roboto",
+          styles: "wght@100;300;400;500;700;900",
         }],
       },
     }),
     AutoImport({
       imports: [
-        'vue',
+        "vue",
         VueRouterAutoImports,
         {
-          pinia: ['defineStore', 'storeToRefs'],
+          pinia: ["defineStore", "storeToRefs"],
         },
       ],
       eslintrc: {
@@ -55,26 +55,26 @@ export default defineConfig({
   ],
   optimizeDeps: {
     exclude: [
-      'vuetify',
-      'vue-router',
-      'unplugin-vue-router/runtime',
-      'unplugin-vue-router/data-loaders',
-      'unplugin-vue-router/data-loaders/basic',
+      "vuetify",
+      "vue-router",
+      "unplugin-vue-router/runtime",
+      "unplugin-vue-router/data-loaders",
+      "unplugin-vue-router/data-loaders/basic",
     ],
   },
-  define: { 'process.env': {} },
+  define: { "process.env": {} },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('src', import.meta.url)),
+      "@": fileURLToPath(new URL("src", import.meta.url)),
     },
     extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
+      ".js",
+      ".json",
+      ".jsx",
+      ".mjs",
+      ".ts",
+      ".tsx",
+      ".vue",
     ],
   },
   server: {
@@ -87,4 +87,4 @@ export default defineConfig({
       },
     },
   },
-})
+});
