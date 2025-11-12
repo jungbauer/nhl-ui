@@ -110,7 +110,7 @@ function useRinkDraw() {
       return y * scaleY;
     }
 
-    goals.forEach((goal, index) => {
+    for (const [index, goal] of goals.entries()) {
       scaleX = landscapeScaleX;
       scaleY = landscapeScaleY;
       const x = centerX + goal.details.xCoord;
@@ -131,7 +131,7 @@ function useRinkDraw() {
       if (portraitDraw) {
         ctx.restore(); // Restore to the state before rotation
       }
-    });
+    }
   }
 
   const drawRink = (canvas, goals, portraitDraw = false) => {
