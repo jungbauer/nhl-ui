@@ -1,23 +1,23 @@
 <script setup>
-const router = useRouter();
-const props = defineProps(["game"]);
+  const router = useRouter();
+  const props = defineProps(["game"]);
 
-const goToGame = () => {
-  if (props.game.gameState !== 'FUT') {
-    router.push(`/game_${props.game.id}`);
+  function goToGame() {
+    if (props.game.gameState !== "FUT") {
+      router.push(`/game_${props.game.id}`);
+    }
   }
-};
 </script>
 
 <template>
   <v-hover>
-    <template v-slot:default="{ isHovering, props }">
+    <template #default="{ isHovering, props }">
       <v-sheet
         v-bind="props"
-        :elevation="isHovering ? 5 : 1"
         class="sheet"
-        rounded
         color="blue-grey-lighten-5"
+        :elevation="isHovering ? 5 : 1"
+        rounded
         @click="goToGame"
       >
         <div
@@ -29,10 +29,10 @@ const goToGame = () => {
           <div
             class="color-div"
             :class="{'future-game': game.gameState === 'FUT','focus-win': game.focusWin && !(game.gameState === 'FUT'),'focus-loss': !game.focusWin && !(game.gameState === 'FUT'),}"
-          ></div>
+          />
           <div class="team-grid">
             <div>
-              <img :src="game.homeTeam.logo" alt="logo" class="logo" />
+              <img alt="logo" class="logo" :src="game.homeTeam.logo">
             </div>
             <div class="score">{{ game.homeTeam.score }}</div>
           </div>
@@ -44,7 +44,7 @@ const goToGame = () => {
           </div>
           <div class="team-grid">
             <div>
-              <img :src="game.awayTeam.logo" alt="logo" class="logo" />
+              <img alt="logo" class="logo" :src="game.awayTeam.logo">
             </div>
             <div class="score">{{ game.awayTeam.score }}</div>
           </div>

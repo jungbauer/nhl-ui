@@ -24,13 +24,13 @@
     >
       &copy; {{ (new Date()).getFullYear() }} <span class="d-none d-sm-inline-block">Johann Jungbauer</span>
       <a
+        class="d-inline-block mx-2 social-link"
         href="https://github.com/jungbauer"
         rel="noopener noreferrer"
         target="_blank"
         title="Jungbauer GitHub"
-        class="d-inline-block mx-2 social-link"
       >
-        <v-icon icon="mdi-github" size="16"/>
+        <v-icon icon="mdi-github" size="16" />
       </a>
     </div>
   </v-footer>
@@ -39,11 +39,11 @@
 <script setup>
   const items = [
     {
-      title: 'NHL-UI GitHub',
-      icon: `mdi-github`,
-      href: 'https://github.com/jungbauer/nhl-ui',
+      title: "NHL-UI GitHub",
+      icon: "mdi-github",
+      href: "https://github.com/jungbauer/nhl-ui",
     },
-  ]
+  ];
 </script>
 
 <style scoped lang="sass">

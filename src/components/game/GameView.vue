@@ -1,46 +1,46 @@
 <script setup>
-import useFetch from "@/utils/useFetch.js";
-import GameViewGoals from "@/components/game/GameViewGoals.vue";
-import RinkView from "@/components/game/RinkView.vue";
+  import GameViewGoals from "@/components/game/GameViewGoals.vue";
+  import RinkView from "@/components/game/RinkView.vue";
+  import useFetch from "@/utils/useFetch.js";
 
-const props = defineProps(["gameId"])
+  const props = defineProps(["gameId"]);
 
-const mountComplete = ref(false);
-const playData = ref({ gameId: props.gameId });
+  const mountComplete = ref(false);
+  const playData = ref({ gameId: props.gameId });
 
-const [startFetch] = useFetch(`/api/gamecenter/${props.gameId}/play-by-play`);
+  const [startFetch] = useFetch(`/api/gamecenter/${props.gameId}/play-by-play`);
 
-onMounted(async () => {
-  let apiPlayData = await startFetch();
-  playData.value.gameType = apiPlayData.gameType;
-  playData.value.gameDate = apiPlayData.gameDate;
-  playData.value.homeTeam = apiPlayData.homeTeam;
-  playData.value.awayTeam = apiPlayData.awayTeam;
-  playData.value.gameOutcome = apiPlayData.gameOutcome;
-  playData.value.goals = apiPlayData.plays.filter((play) => play.typeDescKey === "goal");
-  playData.value.rosterSpots = apiPlayData.rosterSpots;
+  onMounted(async () => {
+    const apiPlayData = await startFetch();
+    playData.value.gameType = apiPlayData.gameType;
+    playData.value.gameDate = apiPlayData.gameDate;
+    playData.value.homeTeam = apiPlayData.homeTeam;
+    playData.value.awayTeam = apiPlayData.awayTeam;
+    playData.value.gameOutcome = apiPlayData.gameOutcome;
+    playData.value.goals = apiPlayData.plays.filter((play) => play.typeDescKey === "goal");
+    playData.value.rosterSpots = apiPlayData.rosterSpots;
 
-  // add player info to goals
-  playData.value.goals.forEach((goal, index) => {
-    goal.mainIndex = index;
-    goal.scoringPlayer = playData.value.rosterSpots.find(
-      (player) => player.playerId === goal.details.scoringPlayerId,
-    );
+    // add player info to goals
+    for (const [index, goal] of playData.value.goals.entries()) {
+      goal.mainIndex = index;
+      goal.scoringPlayer = playData.value.rosterSpots.find(
+        (player) => player.playerId === goal.details.scoringPlayerId,
+      );
+    }
+
+    mountComplete.value = true;
   });
-
-  mountComplete.value = true;
-});
 </script>
 
 <template>
   <v-container class="justify-center">
-    <v-sheet elevation="1" rounded color="blue-grey-lighten-5">
+    <v-sheet color="blue-grey-lighten-5" elevation="1" rounded>
       <div v-if="mountComplete === true">
         <div class="stats">
           <div class="home-stats">
             <div>
               <div class="logo-grid">
-                <img :src="playData.homeTeam.logo" alt="logo" class="logo" />
+                <img alt="logo" class="logo" :src="playData.homeTeam.logo">
               </div>
               <div>
                 {{ playData.homeTeam.placeName.default }} {{ playData.homeTeam.commonName.default }}
@@ -64,7 +64,7 @@ onMounted(async () => {
             </div>
             <div>
               <div class="logo-grid">
-                <img :src="playData.awayTeam.logo" alt="logo" class="logo" />
+                <img alt="logo" class="logo" :src="playData.awayTeam.logo">
               </div>
 
               <div>
@@ -74,14 +74,14 @@ onMounted(async () => {
           </div>
         </div>
 
-        <hr />
+        <hr>
         <GameViewGoals
-          :allGoals="playData.goals"
-          :homeTeamId="playData.homeTeam.id"
-          :awayTeamId="playData.awayTeam.id"
+          :all-goals="playData.goals"
+          :away-team-id="playData.awayTeam.id"
+          :home-team-id="playData.homeTeam.id"
         />
 
-        <hr />
+        <hr>
         <RinkView :goals="playData.goals" />
       </div>
     </v-sheet>

@@ -1,26 +1,26 @@
 <script setup>
-const props = defineProps(["team"]);
-const router = useRouter();
+  const props = defineProps(["team"]);
+  const router = useRouter();
 
-const goToSchedule = () => {
-  router.push(`/schedule/${props.team.teamAbbrev}`);
-};
+  function goToSchedule() {
+    router.push(`/schedule/${props.team.teamAbbrev}`);
+  }
 </script>
 
 <template>
   <v-hover>
-    <template v-slot:default="{ isHovering, props }">
+    <template #default="{ isHovering, props }">
       <v-sheet
         v-bind="props"
-        :elevation="isHovering ? 5 : 1"
         class="test"
-        rounded
         color="blue-grey-lighten-5"
+        :elevation="isHovering ? 5 : 1"
+        rounded
         @click="goToSchedule"
       >
         <div class="parent">
           <div class="team-logo">
-            <img :src="team.teamLogo" alt="logo" class="logo" />
+            <img alt="logo" class="logo" :src="team.teamLogo">
           </div>
           <div class="team">
             <div>{{ team.teamName }}</div>

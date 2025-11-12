@@ -1,17 +1,17 @@
 <script setup>
-import GoalInfo from "@/components/game/GoalInfo.vue";
+  import GoalInfo from "@/components/game/GoalInfo.vue";
 
-defineProps(["keyBase", "homeGoals", "awayGoals"]);
+  defineProps(["keyBase", "homeGoals", "awayGoals"]);
 </script>
 
 <template>
   <div class="goals">
     <div class="home-goals">
-      <GoalInfo v-for="(goal, i) in homeGoals" :key="'h' + keyBase + i" :goal="goal"/>
+      <GoalInfo v-for="(goal, i) in homeGoals" :key="'h' + keyBase + i" :goal="goal" />
     </div>
-    <v-divider vertical></v-divider>
+    <v-divider vertical />
     <div class="away-goals">
-      <GoalInfo v-for="(goal, i) in awayGoals" :key="'a' + keyBase + i" :goal="goal"/>
+      <GoalInfo v-for="(goal, i) in awayGoals" :key="'a' + keyBase + i" :goal="goal" />
     </div>
   </div>
 </template>

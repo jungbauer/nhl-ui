@@ -1,59 +1,59 @@
 <script setup>
-import useFetch from "@/utils/useFetch.js";
+  import useFetch from "@/utils/useFetch.js";
 
-const standingsDisplay = ref("League");
-const displayItems = ["League", "Conference", "Division"];
+  const standingsDisplay = ref("League");
+  const displayItems = ["League", "Conference", "Division"];
 
-const teams = ref([]);
-const westernConference = ref([]);
-const easternConference = ref([]);
-const atlanticDivision = ref([]);
-const metropolitanDivision = ref([]);
-const centralDivision = ref([]);
-const pacificDivision = ref([]);
+  const teams = ref([]);
+  const westernConference = ref([]);
+  const easternConference = ref([]);
+  const atlanticDivision = ref([]);
+  const metropolitanDivision = ref([]);
+  const centralDivision = ref([]);
+  const pacificDivision = ref([]);
 
-const [startFetch] = useFetch("/api/standings/2025-11-10");
+  const [startFetch] = useFetch("/api/standings/2025-11-10");
 
-onMounted(async () => {
-  let teamsData = await startFetch();
+  onMounted(async () => {
+    const teamsData = await startFetch();
 
-  teams.value = teamsData.standings.map(function (elem) {
-    return {
-      teamName: elem.teamName.default,
-      teamLogo: elem.teamLogo,
-      points: elem.points,
-      wins: elem.wins,
-      losses: elem.losses,
-      otLosses: elem.otLosses,
-      gamesPlayed: elem.gamesPlayed,
-      conference: elem.conferenceName,
-      division: elem.divisionName,
-      teamAbbrev: elem.teamAbbrev.default,
-      conferenceSequence: elem.conferenceSequence,
-      divisionSequence: elem.divisionSequence,
-      wildcardSequence: elem.wildcardSequence
-    };
+    teams.value = teamsData.standings.map(function(elem) {
+      return {
+        teamName: elem.teamName.default,
+        teamLogo: elem.teamLogo,
+        points: elem.points,
+        wins: elem.wins,
+        losses: elem.losses,
+        otLosses: elem.otLosses,
+        gamesPlayed: elem.gamesPlayed,
+        conference: elem.conferenceName,
+        division: elem.divisionName,
+        teamAbbrev: elem.teamAbbrev.default,
+        conferenceSequence: elem.conferenceSequence,
+        divisionSequence: elem.divisionSequence,
+        wildcardSequence: elem.wildcardSequence,
+      };
+    });
+
+    westernConference.value = teams.value.filter((team) => team.conference === "Western");
+    easternConference.value = teams.value.filter((team) => team.conference === "Eastern");
+
+    atlanticDivision.value = teams.value.filter((team) => team.division === "Atlantic");
+    metropolitanDivision.value = teams.value.filter((team) => team.division === "Metropolitan");
+    centralDivision.value = teams.value.filter((team) => team.division === "Central");
+    pacificDivision.value = teams.value.filter((team) => team.division === "Pacific");
   });
-
-  westernConference.value = teams.value.filter((team) => team.conference === "Western");
-  easternConference.value = teams.value.filter((team) => team.conference === "Eastern");
-
-  atlanticDivision.value = teams.value.filter((team) => team.division === "Atlantic");
-  metropolitanDivision.value = teams.value.filter((team) => team.division === "Metropolitan");
-  centralDivision.value = teams.value.filter((team) => team.division === "Central");
-  pacificDivision.value = teams.value.filter((team) => team.division === "Pacific");
-});
 </script>
 
 <template>
   <v-container class="d-flex justify-center w-75">
-    <v-sheet :elevation="1" class="w-100" rounded>
+    <v-sheet class="w-100" :elevation="1" rounded>
       <v-select
-        :width="200"
-        label="Select"
         v-model="standingsDisplay"
         :items="displayItems"
-      ></v-select>
+        label="Select"
+        :width="200"
+      />
 
       <div v-if="standingsDisplay === 'League'" class="flex-container">
         <div class="flex-items">
