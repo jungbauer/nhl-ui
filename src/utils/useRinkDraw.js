@@ -1,4 +1,4 @@
-const useRinkDraw = () => {
+function useRinkDraw() {
   // Rink dimensions (in feet): 200x85, scale to canvas
   const rinkLength = 200;
   const rinkWidth = 85;
@@ -197,14 +197,14 @@ const useRinkDraw = () => {
     drawCreaseLeft(ctx, rx, ry);
     drawCreaseRight(ctx, rx, ry);
 
-    goals.forEach((goal, index) => {
+    for (const [index, goal] of goals.entries()) {
       drawGoalCircle(goal, index + 1, ctx, rx, ry);
-    });
+    }
 
     drawGoalsText(goals, ctx, portraitDraw);
   };
 
   return [drawRink, lengthToWidthRatio];
-};
+}
 
 export default useRinkDraw;

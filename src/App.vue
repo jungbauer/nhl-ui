@@ -7,5 +7,5 @@
 
 <script setup>
   //
-import AppBar from "@/components/AppBar.vue";
+  import AppBar from "@/components/AppBar.vue";
 </script>

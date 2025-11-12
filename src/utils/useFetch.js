@@ -1,4 +1,4 @@
-const useFetch = (url) => {
+function useFetch(url) {
   const startFetch = async () => {
     const res = await fetch(url);
     const d = await res.text();
@@ -6,6 +6,6 @@ const useFetch = (url) => {
   };
 
   return [startFetch];
-};
+}
 
 export default useFetch;
