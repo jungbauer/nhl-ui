@@ -1,5 +1,6 @@
 <script setup>
   import TeamScheduleGame from "@/components/TeamScheduleGame.vue";
+  import { useStandingsStore } from "@/stores/standings.js";
   import useFetch from "@/utils/useFetch.js";
 
   const props = defineProps(["teamAbbrev"]);
@@ -16,6 +17,9 @@
   const expansionValue = ref("current");
 
   const [startFetch] = useFetch(`/api/club-schedule-season/${props.teamAbbrev}/${season}`);
+
+  const standingsStore = useStandingsStore();
+  const standingsTeam = ref();
 
   function focusWin(homeTeam, awayTeam) {
     const homeWin = homeTeam.score > awayTeam.score;
@@ -38,6 +42,12 @@
   }
 
   onMounted(async () => {
+    // make sure there's stuff in the store
+    if (standingsStore.standings.length === 0) {
+      await standingsStore.refreshStandings();
+    }
+    standingsTeam.value = standingsStore.standings.find((team) => team.teamAbbrev === props.teamAbbrev);
+
     const scheduleData = await startFetch();
 
     for (const game of scheduleData.games) {
@@ -68,6 +78,7 @@
       <div v-if="focusTeam">
         <img alt="logo" class="logo" :src="focusTeam.logo">
         <div>{{ focusTeam.placeName.default }} {{ focusTeam.commonName.default }}</div>
+        <div>({{ standingsTeam.wins }}-{{ standingsTeam.losses }}-{{ standingsTeam.otLosses }})</div>
       </div>
 
       <v-select
