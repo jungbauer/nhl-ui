@@ -1,10 +1,9 @@
 <script setup>
-  import useFetch from "@/utils/useFetch.js";
+  import { useStandingsStore } from "@/stores/standings.js";
 
   const standingsDisplay = ref("League");
   const displayItems = ["League", "Conference", "Division"];
 
-  const teams = ref([]);
   const westernConference = ref([]);
   const easternConference = ref([]);
   const atlanticDivision = ref([]);
@@ -12,36 +11,21 @@
   const centralDivision = ref([]);
   const pacificDivision = ref([]);
 
-  const [startFetch] = useFetch("/api/standings/2025-11-10");
+  const standingsStore = useStandingsStore();
 
   onMounted(async () => {
-    const teamsData = await startFetch();
+    // make sure there's stuff in the store
+    if (standingsStore.standings.length === 0) {
+      await standingsStore.refreshStandings();
+    }
 
-    teams.value = teamsData.standings.map(function(elem) {
-      return {
-        teamName: elem.teamName.default,
-        teamLogo: elem.teamLogo,
-        points: elem.points,
-        wins: elem.wins,
-        losses: elem.losses,
-        otLosses: elem.otLosses,
-        gamesPlayed: elem.gamesPlayed,
-        conference: elem.conferenceName,
-        division: elem.divisionName,
-        teamAbbrev: elem.teamAbbrev.default,
-        conferenceSequence: elem.conferenceSequence,
-        divisionSequence: elem.divisionSequence,
-        wildcardSequence: elem.wildcardSequence,
-      };
-    });
+    westernConference.value = standingsStore.standings.filter((team) => team.conference === "Western");
+    easternConference.value = standingsStore.standings.filter((team) => team.conference === "Eastern");
 
-    westernConference.value = teams.value.filter((team) => team.conference === "Western");
-    easternConference.value = teams.value.filter((team) => team.conference === "Eastern");
-
-    atlanticDivision.value = teams.value.filter((team) => team.division === "Atlantic");
-    metropolitanDivision.value = teams.value.filter((team) => team.division === "Metropolitan");
-    centralDivision.value = teams.value.filter((team) => team.division === "Central");
-    pacificDivision.value = teams.value.filter((team) => team.division === "Pacific");
+    atlanticDivision.value = standingsStore.standings.filter((team) => team.division === "Atlantic");
+    metropolitanDivision.value = standingsStore.standings.filter((team) => team.division === "Metropolitan");
+    centralDivision.value = standingsStore.standings.filter((team) => team.division === "Central");
+    pacificDivision.value = standingsStore.standings.filter((team) => team.division === "Pacific");
   });
 </script>
 
@@ -58,7 +42,7 @@
       <div v-if="standingsDisplay === 'League'" class="flex-container">
         <div class="flex-items">
           <div><h1>League Standings</h1></div>
-          <StandingsTeam v-for="(team, i) in teams" :key="'l' + i" :team="team" />
+          <StandingsTeam v-for="(team, i) in standingsStore.standings" :key="'l' + i" :team="team" />
         </div>
       </div>
 
