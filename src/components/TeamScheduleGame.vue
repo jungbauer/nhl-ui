@@ -35,6 +35,7 @@
               <img alt="logo" class="logo" :src="game.homeTeam.logo">
             </div>
             <div class="score">{{ game.homeTeam.score }}</div>
+            <div class="team-name">{{ game.homeTeam.commonName.default }}</div>
           </div>
           <div class="versus">
             <div>VS</div>
@@ -47,6 +48,7 @@
               <img alt="logo" class="logo" :src="game.awayTeam.logo">
             </div>
             <div class="score">{{ game.awayTeam.score }}</div>
+            <div class="team-name">{{ game.awayTeam.commonName.default }}</div>
           </div>
         </div>
       </v-sheet>
@@ -92,7 +94,12 @@
 .team-grid
   display: grid
   grid-template-columns: auto auto
+  grid-template-rows: auto auto
   align-items: center
+  justify-items: center
+
+.team-name
+  grid-column: 1 / span 2
 
 .versus
   padding: 10px
