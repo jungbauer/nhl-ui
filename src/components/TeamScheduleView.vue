@@ -79,6 +79,7 @@
         <img alt="logo" class="logo" :src="focusTeam.logo">
         <div>{{ focusTeam.placeName.default }} {{ focusTeam.commonName.default }}</div>
         <div>({{ standingsTeam.wins }}-{{ standingsTeam.losses }}-{{ standingsTeam.otLosses }})</div>
+        <div>Current Streak: {{ standingsTeam.streakCode }}-{{ standingsTeam.streakCount }}</div>
       </div>
 
       <v-select

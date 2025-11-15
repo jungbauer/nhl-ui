@@ -22,6 +22,8 @@ export const useStandingsStore = defineStore("standings", () => {
         conferenceSequence: elem.conferenceSequence,
         divisionSequence: elem.divisionSequence,
         wildcardSequence: elem.wildcardSequence,
+        streakCode: elem.streakCode,
+        streakCount: elem.streakCount,
       };
     });
   }
