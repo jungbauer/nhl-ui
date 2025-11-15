@@ -1,5 +1,8 @@
 <script setup>
+  import { useDisplay } from "vuetify/framework";
   import { useStandingsStore } from "@/stores/standings.js";
+
+  const { smAndUp, xs } = useDisplay();
 
   const standingsDisplay = ref("League");
   const displayItems = ["League", "Conference", "Division"];
@@ -57,20 +60,20 @@
         </div>
       </div>
 
-      <div v-if="standingsDisplay === 'Division'" class="flex-container-divisions">
-        <div class="flex-items">
+      <div v-if="standingsDisplay === 'Division'" :class="{'divisions-grid': smAndUp, 'divisions-grid-small': xs}">
+        <div>
           <h1>Pacific</h1>
           <StandingsTeam v-for="(team, i) in pacificDivision" :key="'pd' + i" :team="team" />
         </div>
-        <div class="flex-items">
+        <div>
           <h1>Central</h1>
           <StandingsTeam v-for="(team, i) in centralDivision" :key="'cd' + i" :team="team" />
         </div>
-        <div class="flex-items">
+        <div>
           <h1>Metropolitan</h1>
           <StandingsTeam v-for="(team, i) in metropolitanDivision" :key="'md' + i" :team="team" />
         </div>
-        <div class="flex-items">
+        <div>
           <h1>Atlantic</h1>
           <StandingsTeam v-for="(team, i) in atlanticDivision" :key="'ad' + i" :team="team" />
         </div>
@@ -124,5 +127,17 @@
   align-content: normal
   column-gap: 10px
   row-gap: 15px
+
+.divisions-grid
+  display: grid
+  grid-template-columns: auto auto
+  grid-template-rows: auto auto
+  grid-column-gap: 24px
+  grid-row-gap: 24px
+
+.divisions-grid-small
+  display: grid
+  grid-template-columns: auto
+  grid-row-gap: 24px
 
 </style>
