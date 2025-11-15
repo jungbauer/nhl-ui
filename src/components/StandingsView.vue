@@ -59,20 +59,20 @@
 
       <div v-if="standingsDisplay === 'Division'" class="flex-container-divisions">
         <div class="flex-items">
-          <h1>Central</h1>
-          <StandingsTeam v-for="(team, i) in centralDivision" :key="'cd' + i" :team="team" />
-        </div>
-        <div class="flex-items">
-          <h1>Atlantic</h1>
-          <StandingsTeam v-for="(team, i) in atlanticDivision" :key="'ad' + i" :team="team" />
-        </div>
-        <div class="flex-items">
           <h1>Pacific</h1>
           <StandingsTeam v-for="(team, i) in pacificDivision" :key="'pd' + i" :team="team" />
         </div>
         <div class="flex-items">
+          <h1>Central</h1>
+          <StandingsTeam v-for="(team, i) in centralDivision" :key="'cd' + i" :team="team" />
+        </div>
+        <div class="flex-items">
           <h1>Metropolitan</h1>
           <StandingsTeam v-for="(team, i) in metropolitanDivision" :key="'md' + i" :team="team" />
+        </div>
+        <div class="flex-items">
+          <h1>Atlantic</h1>
+          <StandingsTeam v-for="(team, i) in atlanticDivision" :key="'ad' + i" :team="team" />
         </div>
       </div>
 
