@@ -2,8 +2,8 @@ import useFetch from "@/utils/useFetch.js";
 
 export const useStandingsStore = defineStore("standings", () => {
   const standings = ref([]);
-
-  const [startFetch] = useFetch("/api/standings/2025-11-14");
+  const standingsUrl = `${import.meta.env.VITE_API_URL}/nhl/standings`;
+  const [startFetch] = useFetch(standingsUrl);
 
   async function refreshStandings() {
     const teamsData = await startFetch();

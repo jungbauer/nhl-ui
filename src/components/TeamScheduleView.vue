@@ -19,7 +19,8 @@
   const focusTeam = ref();
   const expansionValue = ref("current");
 
-  const [startFetch] = useFetch(`/api/club-schedule-season/${props.teamAbbrev}/${season}`);
+  const teamScheduleUrl = `${import.meta.env.VITE_API_URL}/nhl/club-schedule?team=${props.teamAbbrev}&season=${season}`;
+  const [startFetch] = useFetch(teamScheduleUrl);
 
   const standingsStore = useStandingsStore();
   const standingsTeam = ref();

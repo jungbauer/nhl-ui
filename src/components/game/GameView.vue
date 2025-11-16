@@ -8,7 +8,8 @@
   const mountComplete = ref(false);
   const playData = ref({ gameId: props.gameId });
 
-  const [startFetch] = useFetch(`/api/gamecenter/${props.gameId}/play-by-play`);
+  const playByPlayUrl = `${import.meta.env.VITE_API_URL}/nhl/gamecenter-playbyplay?gameId=${props.gameId}`;
+  const [startFetch] = useFetch(playByPlayUrl);
 
   onMounted(async () => {
     const apiPlayData = await startFetch();
