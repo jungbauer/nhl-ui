@@ -38,6 +38,10 @@ export default defineConfig({
           styles: "wght@100;300;400;500;700;900",
         }],
       },
+      custom: {
+        families: [],
+        preload: false,
+      },
     }),
     AutoImport({
       imports: [
