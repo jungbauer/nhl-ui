@@ -33,7 +33,7 @@
 </script>
 
 <template>
-  <v-container class="d-flex justify-center w-75">
+  <v-container class="d-flex justify-center" :class="{'w-75': smAndUp, 'w-90': xs}">
     <v-sheet class="w-100" :elevation="1" rounded>
       <v-select
         v-model="standingsDisplay"
