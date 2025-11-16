@@ -1,6 +1,8 @@
 # NHL-UI
 Static site to explore ideas and the NHL public API.
 
+Hosted on GitHub Pages at https://jungbauer.github.io/nhl-ui/
+
 ## References
 [NHL API Description](https://github.com/Zmalski/NHL-API-Reference)
 
