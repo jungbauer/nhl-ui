@@ -1,7 +1,11 @@
 <script setup>
+  import { useDisplay } from "vuetify/framework";
+  import GoalInfo from "@/components/game/GoalInfo.vue";
   import GoalsHomeAway from "@/components/game/GoalsHomeAway.vue";
 
   const props = defineProps(["allGoals", "homeTeamId", "awayTeamId"]);
+
+  const { xs } = useDisplay();
 
   const displayPeriodSplit = ref(false);
   const displayTimeRemaining = ref(true);
@@ -107,31 +111,65 @@
     :label="`Time: ${timeSwitchText}`"
   />
   <v-divider />
-  <GoalsHomeAway v-show="!displayPeriodSplit" :away-goals="awayGoals" :home-goals="homeGoals" :key-base="'f'" />
-
-  <div v-show="displayPeriodSplit">
-    <div>
-      <div>P1</div>
-      <GoalsHomeAway :away-goals="p1Goals.away" :home-goals="p1Goals.home" :key-base="'p1g'" />
+  <div v-if="xs">
+    <div v-if="!displayPeriodSplit">
+      <GoalInfo v-for="(goal, i) in allGoals" :key="'xs' + i" :goal="goal" />
     </div>
-    <v-divider />
-    <div>
-      <div>P2</div>
-      <GoalsHomeAway :away-goals="p2Goals.away" :home-goals="p2Goals.home" :key-base="'p2g'" />
-    </div>
-    <v-divider />
-    <div>
-      <div>P3</div>
-      <GoalsHomeAway :away-goals="p3Goals.away" :home-goals="p3Goals.home" :key-base="'p3g'" />
-    </div>
-    <div v-if="overtimeGoals.all.length > 0">
-      <div>Overtime</div>
-      <GoalsHomeAway :away-goals="overtimeGoals.away" :home-goals="overtimeGoals.home" :key-base="'otg'" />
-    </div>
-    <div v-if="shootoutGoals.all.length > 0">
+    <div v-else>
+      <div>
+        <div>P1</div>
+        <GoalInfo v-for="(goal, i) in p1Goals.all" :key="'xsp1' + i" :goal="goal" />
+      </div>
       <v-divider />
-      <div>Shootout</div>
-      <GoalsHomeAway :away-goals="shootoutGoals.away" :home-goals="shootoutGoals.home" :key-base="'shg'" />
+      <div>
+        <div>P2</div>
+        <GoalInfo v-for="(goal, i) in p2Goals.all" :key="'xsp2' + i" :goal="goal" />
+      </div>
+      <v-divider />
+      <div>
+        <div>P3</div>
+        <GoalInfo v-for="(goal, i) in p3Goals.all" :key="'xsp3' + i" :goal="goal" />
+      </div>
+      <div v-if="overtimeGoals.all.length > 0">
+        <v-divider />
+        <div>Overtime</div>
+        <GoalInfo v-for="(goal, i) in overtimeGoals.all" :key="'xsot' + i" :goal="goal" />
+      </div>
+      <div v-if="shootoutGoals.all.length > 0">
+        <v-divider />
+        <div>Shootout</div>
+        <GoalInfo v-for="(goal, i) in shootoutGoals.all" :key="'xsso' + i" :goal="goal" />
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <GoalsHomeAway v-show="!displayPeriodSplit" :away-goals="awayGoals" :home-goals="homeGoals" :key-base="'f'" />
+
+    <div v-show="displayPeriodSplit">
+      <div>
+        <div>P1</div>
+        <GoalsHomeAway :away-goals="p1Goals.away" :home-goals="p1Goals.home" :key-base="'p1g'" />
+      </div>
+      <v-divider />
+      <div>
+        <div>P2</div>
+        <GoalsHomeAway :away-goals="p2Goals.away" :home-goals="p2Goals.home" :key-base="'p2g'" />
+      </div>
+      <v-divider />
+      <div>
+        <div>P3</div>
+        <GoalsHomeAway :away-goals="p3Goals.away" :home-goals="p3Goals.home" :key-base="'p3g'" />
+      </div>
+      <div v-if="overtimeGoals.all.length > 0">
+        <v-divider />
+        <div>Overtime</div>
+        <GoalsHomeAway :away-goals="overtimeGoals.away" :home-goals="overtimeGoals.home" :key-base="'otg'" />
+      </div>
+      <div v-if="shootoutGoals.all.length > 0">
+        <v-divider />
+        <div>Shootout</div>
+        <GoalsHomeAway :away-goals="shootoutGoals.away" :home-goals="shootoutGoals.home" :key-base="'shg'" />
+      </div>
     </div>
   </div>
 </template>
