@@ -60,20 +60,20 @@
         </div>
       </div>
 
-      <div v-if="standingsDisplay === 'Division'" :class="{'divisions-grid': smAndUp, 'divisions-grid-small': xs}">
-        <div>
+      <div v-if="standingsDisplay === 'Division'" :class="{'divisions-grid': smAndUp, 'divisions-small': xs}">
+        <div class="flex-items">
           <h1>Pacific</h1>
           <StandingsTeam v-for="(team, i) in pacificDivision" :key="'pd' + i" :team="team" />
         </div>
-        <div>
+        <div class="flex-items">
           <h1>Central</h1>
           <StandingsTeam v-for="(team, i) in centralDivision" :key="'cd' + i" :team="team" />
         </div>
-        <div>
+        <div class="flex-items">
           <h1>Metropolitan</h1>
           <StandingsTeam v-for="(team, i) in metropolitanDivision" :key="'md' + i" :team="team" />
         </div>
-        <div>
+        <div class="flex-items">
           <h1>Atlantic</h1>
           <StandingsTeam v-for="(team, i) in atlanticDivision" :key="'ad' + i" :team="team" />
         </div>
@@ -117,9 +117,13 @@
   grid-column-gap: 24px
   grid-row-gap: 24px
 
-.divisions-grid-small
-  display: grid
-  grid-template-columns: auto
-  grid-row-gap: 24px
+.divisions-small
+  display: flex
+  flex-direction: column
+  flex-wrap: nowrap
+  justify-content: center
+  align-items: center
+  align-content: normal
+  row-gap: 24px
 
 </style>
