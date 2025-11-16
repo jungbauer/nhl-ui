@@ -50,11 +50,11 @@
       </div>
 
       <div v-if="standingsDisplay === 'Conference'" class="flex-container-conference">
-        <div class="flex-items-conference">
+        <div class="flex-items">
           <div><h1>Western Standings</h1></div>
           <StandingsTeam v-for="(team, i) in westernConference" :key="'wc' + i" :team="team" />
         </div>
-        <div class="flex-items-conference">
+        <div class="flex-items">
           <div><h1>Eastern Standings</h1></div>
           <StandingsTeam v-for="(team, i) in easternConference" :key="'wc' + i" :team="team" />
         </div>
@@ -101,24 +101,6 @@
   order: 0
 
 .flex-container-conference
-  display: flex
-  flex-direction: row
-  flex-wrap: wrap
-  justify-content: space-evenly
-  align-items: normal
-  align-content: normal
-  column-gap: 10px
-  row-gap: 15px
-
-.flex-items-conference
-  display: block
-  flex-grow: 0
-  flex-shrink: 1
-  flex-basis: auto
-  align-self: auto
-  order: 0
-
-.flex-container-divisions
   display: flex
   flex-direction: row
   flex-wrap: wrap
