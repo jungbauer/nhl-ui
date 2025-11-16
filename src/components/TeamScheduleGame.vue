@@ -1,6 +1,10 @@
 <script setup>
+  import { useDisplay } from "vuetify/framework";
+
   const router = useRouter();
   const props = defineProps(["game"]);
+
+  const { xs } = useDisplay();
 
   function goToGame() {
     if (props.game.gameState !== "FUT") {
@@ -20,10 +24,8 @@
         rounded
         @click="goToGame"
       >
-        <div
-          class="game-grid"
-        >
-          <div>
+        <div class="game-grid">
+          <div class="date">
             {{ game.gameDate }}
           </div>
           <div
@@ -35,7 +37,7 @@
               <img alt="logo" class="logo" :src="game.homeTeam.logo">
             </div>
             <div class="score">{{ game.homeTeam.score }}</div>
-            <div class="team-name">{{ game.homeTeam.commonName.default }}</div>
+            <div class="team-name" :class="{'team-name-xs': xs}">{{ game.homeTeam.commonName.default }}</div>
           </div>
           <div class="versus">
             <div>VS</div>
@@ -48,7 +50,7 @@
               <img alt="logo" class="logo" :src="game.awayTeam.logo">
             </div>
             <div class="score">{{ game.awayTeam.score }}</div>
-            <div class="team-name">{{ game.awayTeam.commonName.default }}</div>
+            <div class="team-name" :class="{'team-name-xs': xs}">{{ game.awayTeam.commonName.default }}</div>
           </div>
         </div>
       </v-sheet>
@@ -101,6 +103,12 @@
 .team-name
   grid-column: 1 / span 2
 
+.team-name-xs
+  max-width: 80px
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
 .versus
   padding: 10px
   display: flex
@@ -110,4 +118,7 @@
 .score
   font-weight: bold
   font-size: x-large
+
+.date
+  min-width: 81px
 </style>

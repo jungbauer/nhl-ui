@@ -1,10 +1,13 @@
 <script setup>
+  import { useDisplay } from "vuetify/framework";
   import TeamScheduleGame from "@/components/TeamScheduleGame.vue";
   import { useStandingsStore } from "@/stores/standings.js";
   import useFetch from "@/utils/useFetch.js";
 
   const props = defineProps(["teamAbbrev"]);
   const season = "20252026";
+
+  const { smAndUp, xs } = useDisplay();
 
   const typeDisplay = ref("regseason");
   const typeItems = [{ title: "Regular Season", value: "regseason" }, { title: "Pre-Season", value: "preseason" }];
@@ -73,7 +76,7 @@
 </script>
 
 <template>
-  <v-container class="d-flex justify-center w-75">
+  <v-container class="d-flex justify-center" :class="{'w-75': smAndUp, 'w-90': xs}">
     <v-sheet class="w-100" :elevation="1" rounded>
       <div v-if="focusTeam">
         <img alt="logo" class="logo" :src="focusTeam.logo">
