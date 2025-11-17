@@ -7,7 +7,8 @@
   const props = defineProps(["teamAbbrev"]);
   const season = "20252026";
 
-  const { smAndUp, xs } = useDisplay();
+  const { smAndUp, xs, width } = useDisplay();
+  const elementRef = ref(null);
 
   const typeDisplay = ref("regseason");
   const typeItems = [{ title: "Regular Season", value: "regseason" }, { title: "Pre-Season", value: "preseason" }];
@@ -46,6 +47,7 @@
   }
 
   onMounted(async () => {
+    console.log("elementRef", elementRef.value.offsetWidth);
     // make sure there's stuff in the store
     if (standingsStore.standings.length === 0) {
       await standingsStore.refreshStandings();
@@ -74,6 +76,9 @@
     focusTeam.value = preSeasonGames.value[0].homeTeam.abbrev === props.teamAbbrev ? preSeasonGames.value[0].homeTeam : preSeasonGames.value[0].awayTeam;
   });
 
+  const eleWidth = computed(() => {
+    return elementRef.value === null ? -1 : elementRef.value.offsetWidth;
+  });
 </script>
 
 <template>
@@ -93,6 +98,8 @@
         :width="200"
       />
 
+      <div>display width: {{ width }}</div>
+
       <div v-if="typeDisplay === 'preseason'">
         <TeamScheduleGame v-for="(game, i) in preSeasonGames" :key="'pre' + i" :game="game" />
       </div>
@@ -105,6 +112,7 @@
           </v-expansion-panel>
           <v-expansion-panel :title="'Last ' + regCurrentGames.length + ' Games'" value="current">
             <v-expansion-panel-text>
+              <div ref="elementRef">test width: {{ eleWidth }}</div>
               <TeamScheduleGame v-for="(game, i) in regCurrentGames" :key="'curr' + i" :game="game" />
             </v-expansion-panel-text>
           </v-expansion-panel>
