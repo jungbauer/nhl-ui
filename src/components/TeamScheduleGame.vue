@@ -6,6 +6,16 @@
 
   const { xs } = useDisplay();
 
+  const formattedDate = computed(() => {
+    const options = {
+      day: "2-digit",
+      month: "short",
+    };
+
+    const testDate = new Date(props.game.gameDate + "T00:00:00");
+    return new Intl.DateTimeFormat("en-US", options).format(testDate);
+  });
+
   function goToGame() {
     if (props.game.gameState !== "FUT") {
       router.push(`/game_${props.game.id}`);
@@ -26,7 +36,7 @@
       >
         <div class="game-grid">
           <div class="date">
-            {{ game.gameDate }}
+            {{ formattedDate }}
           </div>
           <div
             class="color-div"
@@ -83,6 +93,7 @@
 .color-div
   height: 100%
   width: 10px
+  margin-right: 5px
 
 .future-game
   background-color: darkgray
@@ -120,5 +131,5 @@
   font-size: x-large
 
 .date
-  min-width: 81px
+  min-width: 55px
 </style>
