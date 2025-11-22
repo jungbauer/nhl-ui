@@ -5,7 +5,7 @@
   const { smAndUp, xs } = useDisplay();
 
   const standingsDisplay = ref("League");
-  const displayItems = ["League", "Conference", "Division"];
+  const displayItems = ["League", "Conference", "Division", "Wildcard"];
 
   const westernConference = ref([]);
   const easternConference = ref([]);
@@ -13,6 +13,8 @@
   const metropolitanDivision = ref([]);
   const centralDivision = ref([]);
   const pacificDivision = ref([]);
+  const easternWildcard = ref([]);
+  const westernWildcard = ref([]);
 
   const standingsStore = useStandingsStore();
 
@@ -29,6 +31,14 @@
     metropolitanDivision.value = standingsStore.standings.filter((team) => team.division === "Metropolitan");
     centralDivision.value = standingsStore.standings.filter((team) => team.division === "Central");
     pacificDivision.value = standingsStore.standings.filter((team) => team.division === "Pacific");
+
+    easternWildcard.value.push(standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 1),
+                               standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 2),
+                               standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 3));
+
+    westernWildcard.value.push(standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 1),
+                               standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 2),
+                               standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 3));
   });
 </script>
 
@@ -79,6 +89,43 @@
         </div>
       </div>
 
+      <div v-if="standingsDisplay === 'Wildcard'">
+        <div>
+          <h1>Western Conference</h1>
+          <div class="wildcard-div">
+            <div>
+              <h2>Pacific Division</h2>
+              <StandingsTeam v-for="(team, i) in pacificDivision.slice(0,3)" :key="'wpd' + i" :team="team" />
+            </div>
+            <div>
+              <h2>Central Division</h2>
+              <StandingsTeam v-for="(team, i) in centralDivision.slice(0,3)" :key="'wcd' + i" :team="team" />
+            </div>
+            <div>
+              <h2>Wildcards</h2>
+              <StandingsTeam v-for="(team, i) in westernWildcard" :key="'wwc' + i" :team="team" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h1>Eastern Conference</h1>
+          <div class="wildcard-div">
+            <div>
+              <h2>Atlantic Division</h2>
+              <StandingsTeam v-for="(team, i) in atlanticDivision.slice(0,3)" :key="'wad' + i" :team="team" />
+            </div>
+            <div>
+              <h2>Metropolitan Division</h2>
+              <StandingsTeam v-for="(team, i) in metropolitanDivision.slice(0,3)" :key="'wmd' + i" :team="team" />
+            </div>
+            <div>
+              <h2>Wildcards</h2>
+              <StandingsTeam v-for="(team, i) in easternWildcard" :key="'wec' + i" :team="team" />
+            </div>
+          </div>
+        </div>
+      </div>
+
     </v-sheet>
   </v-container>
 </template>
@@ -125,5 +172,10 @@
   align-items: center
   align-content: normal
   row-gap: 24px
+
+.wildcard-div
+  display: flex
+  flex-wrap: wrap
+  column-gap: 10px
 
 </style>
