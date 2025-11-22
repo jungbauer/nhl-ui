@@ -1,5 +1,5 @@
 <script setup>
-  const props = defineProps(["team"]);
+  const props = defineProps(["team", "index"]);
   const router = useRouter();
 
   function goToSchedule() {
@@ -19,6 +19,7 @@
         @click="goToSchedule"
       >
         <div class="parent">
+          <div>{{ index + 1 }}.</div>
           <div class="team-logo">
             <img alt="logo" class="logo" :src="team.teamLogo">
           </div>
@@ -43,10 +44,12 @@
 
 .parent
   display: grid
-  grid-template-columns: 66px auto 50px
+  grid-template-columns: 20px 66px auto 50px
   grid-template-rows: 66px
   margin-bottom: 8px
   padding: 4px
+  align-items: center
+  justify-items: center
 
 .team
   display: flex
