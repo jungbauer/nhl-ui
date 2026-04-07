@@ -24,6 +24,8 @@ export const useStandingsStore = defineStore("standings", () => {
         wildcardSequence: elem.wildcardSequence,
         streakCode: elem.streakCode,
         streakCount: elem.streakCount,
+        l10GamesPlayed: elem.l10GamesPlayed,
+        l10Points: elem.l10Points,
       };
     });
   }

@@ -20,6 +20,8 @@
 
   const standingsStore = useStandingsStore();
 
+  const showProjections = ref(false);
+
   onMounted(async () => {
     // make sure there's stuff in the store
     if (standingsStore.standings.length === 0) {
@@ -59,6 +61,14 @@
         :items="displayItems"
         label="Select"
         :width="200"
+      />
+      <v-switch
+        v-if="standingsDisplay === 'Wildcard'"
+        v-model="showProjections"
+        color="primary"
+        hide-details
+        inset
+        label="Show point projections"
       />
 
       <div v-if="standingsDisplay === 'League'" class="flex-container">
@@ -104,22 +114,46 @@
           <div>
             <div>
               <h2>Pacific Division</h2>
-              <StandingsTeam v-for="(team, i) in pacificDivision.slice(0,3)" :key="'wpd' + i" :index="i" :team="team" />
+              <StandingsTeam
+                v-for="(team, i) in pacificDivision.slice(0,3)"
+                :key="'wpd' + i"
+                :index="i"
+                :projections="showProjections"
+                :team="team"
+              />
             </div>
             <div>
               <h2>Central Division</h2>
-              <StandingsTeam v-for="(team, i) in centralDivision.slice(0,3)" :key="'wcd' + i" :index="i" :team="team" />
+              <StandingsTeam
+                v-for="(team, i) in centralDivision.slice(0,3)"
+                :key="'wcd' + i"
+                :index="i"
+                :projections="showProjections"
+                :team="team"
+              />
             </div>
             <div>
               <h2>Wildcards</h2>
-              <StandingsTeam v-for="(team, i) in westernWildcards" :key="'wwc' + i" :index="i" :team="team" />
+              <StandingsTeam
+                v-for="(team, i) in westernWildcards"
+                :key="'wwc' + i"
+                :index="i"
+                :projections="showProjections"
+                :team="team"
+              />
             </div>
             <hr style="margin: 20px 0 20px 0">
             <div>
               <v-expansion-panels>
                 <v-expansion-panel :title="'Western Remaining'" value="west-rem">
                   <v-expansion-panel-text>
-                    <StandingsTeam v-for="(team, i) in westernRemaining" :key="'wrem' + i" :index="i" :team="team" />
+                    <StandingsTeam
+                      v-for="(team, i) in westernRemaining"
+                      :key="'wrem' + i"
+                      :index="i"
+                      :projections="showProjections"
+                      :team="team"
+                    />
                   </v-expansion-panel-text>
                 </v-expansion-panel>
               </v-expansion-panels>
@@ -131,22 +165,46 @@
           <div>
             <div>
               <h2>Atlantic Division</h2>
-              <StandingsTeam v-for="(team, i) in atlanticDivision.slice(0,3)" :key="'wad' + i" :index="i" :team="team" />
+              <StandingsTeam
+                v-for="(team, i) in atlanticDivision.slice(0,3)"
+                :key="'wad' + i"
+                :index="i"
+                :projections="showProjections"
+                :team="team"
+              />
             </div>
             <div>
               <h2>Metropolitan Division</h2>
-              <StandingsTeam v-for="(team, i) in metropolitanDivision.slice(0,3)" :key="'wmd' + i" :index="i" :team="team" />
+              <StandingsTeam
+                v-for="(team, i) in metropolitanDivision.slice(0,3)"
+                :key="'wmd' + i"
+                :index="i"
+                :projections="showProjections"
+                :team="team"
+              />
             </div>
             <div>
               <h2>Wildcards</h2>
-              <StandingsTeam v-for="(team, i) in easternWildcards" :key="'wec' + i" :index="i" :team="team" />
+              <StandingsTeam
+                v-for="(team, i) in easternWildcards"
+                :key="'wec' + i"
+                :index="i"
+                :projections="showProjections"
+                :team="team"
+              />
             </div>
             <hr style="margin: 20px 0 20px 0">
             <div>
               <v-expansion-panels>
                 <v-expansion-panel :title="'Eastern Remaining'" value="east-rem">
                   <v-expansion-panel-text>
-                    <StandingsTeam v-for="(team, i) in easternRemaining" :key="'erem' + i" :index="i" :team="team" />
+                    <StandingsTeam
+                      v-for="(team, i) in easternRemaining"
+                      :key="'erem' + i"
+                      :index="i"
+                      :projections="showProjections"
+                      :team="team"
+                    />
                   </v-expansion-panel-text>
                 </v-expansion-panel>
               </v-expansion-panels>

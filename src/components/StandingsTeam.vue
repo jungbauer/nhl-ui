@@ -1,10 +1,32 @@
 <script setup>
-  const props = defineProps(["team", "index"]);
+  const props = defineProps({
+    team: Object,
+    index: Number,
+    projections: { type: Boolean, default: false },
+  });
   const router = useRouter();
 
   function goToSchedule() {
     router.push(`/schedule/${props.team.teamAbbrev}`);
   }
+
+  const showProjections = computed(() => {
+    return props.projections;
+  });
+
+  const maxPoints = computed(() => {
+    return ((82 - props.team.gamesPlayed) * 2) + props.team.points;
+  });
+  const aveProjection = computed(() => {
+    const gamesRemaining = 82 - props.team.gamesPlayed;
+    const pointAve = props.team.points / props.team.gamesPlayed;
+    return props.team.points + (gamesRemaining * pointAve);
+  });
+  const lastTenProjection = computed(() => {
+    const gamesRemaining = 82 - props.team.gamesPlayed;
+    const l10Ave = props.team.l10Points / props.team.l10GamesPlayed;
+    return props.team.points + (gamesRemaining * l10Ave);
+  });
 </script>
 
 <template>
@@ -30,6 +52,11 @@
           <div class="points">
             {{ team.points }}
           </div>
+          <div v-if="showProjections">
+            <div>max: {{ maxPoints }}</div>
+            <div>ave: {{ aveProjection.toFixed(1) }}</div>
+            <div>L10: {{ lastTenProjection }}</div>
+          </div>
         </div>
       </v-sheet>
     </template>
@@ -44,7 +71,7 @@
 
 .parent
   display: grid
-  grid-template-columns: 20px 66px auto 50px
+  grid-template-columns: 20px 66px auto 50px auto
   grid-template-rows: 66px
   margin-bottom: 8px
   padding: 4px
