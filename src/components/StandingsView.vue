@@ -109,7 +109,7 @@
       </div>
 
       <div v-if="standingsDisplay === 'Wildcard'" class="wildcard-div">
-        <div>
+        <div :class="{'w-100': xs}">
           <h1>Western Conference</h1>
           <div>
             <div>
@@ -160,7 +160,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div :class="{'w-100': xs}">
           <h1>Eastern Conference</h1>
           <div>
             <div>
