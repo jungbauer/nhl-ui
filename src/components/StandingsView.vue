@@ -4,7 +4,7 @@
 
   const { smAndUp, xs } = useDisplay();
 
-  const standingsDisplay = ref("League");
+  const standingsDisplay = ref("Wildcard"); // todo change back
   const displayItems = ["League", "Conference", "Division", "Wildcard"];
 
   const westernConference = ref([]);
@@ -13,8 +13,10 @@
   const metropolitanDivision = ref([]);
   const centralDivision = ref([]);
   const pacificDivision = ref([]);
-  const easternWildcard = ref([]);
-  const westernWildcard = ref([]);
+  const easternWildcards = ref([]);
+  const westernWildcards = ref([]);
+  const easternRemaining = ref([]);
+  const westernRemaining = ref([]);
 
   const standingsStore = useStandingsStore();
 
@@ -32,13 +34,20 @@
     centralDivision.value = standingsStore.standings.filter((team) => team.division === "Central");
     pacificDivision.value = standingsStore.standings.filter((team) => team.division === "Pacific");
 
-    easternWildcard.value.push(standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 1),
-                               standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 2),
-                               standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 3));
+    easternWildcards.value.push(standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 1),
+                                standingsStore.standings.find((team) => team.conference === "Eastern" && team.wildcardSequence === 2));
 
-    westernWildcard.value.push(standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 1),
-                               standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 2),
-                               standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 3));
+    westernWildcards.value.push(standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 1),
+                                standingsStore.standings.find((team) => team.conference === "Western" && team.wildcardSequence === 2));
+
+    for (const team of standingsStore.standings) {
+      if (team.conference === "Eastern" && team.wildcardSequence > 2) {
+        easternRemaining.value.push(team);
+      }
+      if (team.conference === "Western" && team.wildcardSequence > 2) {
+        westernRemaining.value.push(team);
+      }
+    }
   });
 </script>
 
@@ -89,10 +98,10 @@
         </div>
       </div>
 
-      <div v-if="standingsDisplay === 'Wildcard'">
+      <div v-if="standingsDisplay === 'Wildcard'" class="wildcard-div">
         <div>
           <h1>Western Conference</h1>
-          <div class="wildcard-div">
+          <div>
             <div>
               <h2>Pacific Division</h2>
               <StandingsTeam v-for="(team, i) in pacificDivision.slice(0,3)" :key="'wpd' + i" :index="i" :team="team" />
@@ -103,13 +112,23 @@
             </div>
             <div>
               <h2>Wildcards</h2>
-              <StandingsTeam v-for="(team, i) in westernWildcard" :key="'wwc' + i" :index="i" :team="team" />
+              <StandingsTeam v-for="(team, i) in westernWildcards" :key="'wwc' + i" :index="i" :team="team" />
+            </div>
+            <hr style="margin: 20px 0 20px 0">
+            <div>
+              <v-expansion-panels>
+                <v-expansion-panel :title="'Western Remaining'" value="west-rem">
+                  <v-expansion-panel-text>
+                    <StandingsTeam v-for="(team, i) in westernRemaining" :key="'wrem' + i" :index="i" :team="team" />
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
+              </v-expansion-panels>
             </div>
           </div>
         </div>
         <div>
           <h1>Eastern Conference</h1>
-          <div class="wildcard-div">
+          <div>
             <div>
               <h2>Atlantic Division</h2>
               <StandingsTeam v-for="(team, i) in atlanticDivision.slice(0,3)" :key="'wad' + i" :index="i" :team="team" />
@@ -120,7 +139,17 @@
             </div>
             <div>
               <h2>Wildcards</h2>
-              <StandingsTeam v-for="(team, i) in easternWildcard" :key="'wec' + i" :index="i" :team="team" />
+              <StandingsTeam v-for="(team, i) in easternWildcards" :key="'wec' + i" :index="i" :team="team" />
+            </div>
+            <hr style="margin: 20px 0 20px 0">
+            <div>
+              <v-expansion-panels>
+                <v-expansion-panel :title="'Eastern Remaining'" value="east-rem">
+                  <v-expansion-panel-text>
+                    <StandingsTeam v-for="(team, i) in easternRemaining" :key="'erem' + i" :index="i" :team="team" />
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
+              </v-expansion-panels>
             </div>
           </div>
         </div>
