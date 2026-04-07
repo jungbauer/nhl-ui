@@ -4,7 +4,7 @@
 
   const { smAndUp, xs } = useDisplay();
 
-  const standingsDisplay = ref("Wildcard"); // todo change back
+  const standingsDisplay = ref("League");
   const displayItems = ["League", "Conference", "Division", "Wildcard"];
 
   const westernConference = ref([]);
