@@ -52,10 +52,10 @@
           <div class="points">
             {{ team.points }}
           </div>
-          <div v-if="showProjections">
-            <div>max: {{ maxPoints }}</div>
-            <div>ave: {{ aveProjection.toFixed(1) }}</div>
-            <div>L10: {{ lastTenProjection }}</div>
+          <div v-if="showProjections" class="projections">
+            <div class="projections-max">{{ maxPoints }}</div>
+            <div class="projections-ave">{{ aveProjection.toFixed(0) }}</div>
+            <div class="projections-l10">{{ lastTenProjection.toFixed(0) }}</div>
           </div>
         </div>
       </v-sheet>
@@ -71,7 +71,7 @@
 
 .parent
   display: grid
-  grid-template-columns: 20px 66px auto 50px auto
+  grid-template-columns: 20px 66px minmax(150px, 1fr) 50px auto
   grid-template-rows: 66px
   margin-bottom: 8px
   padding: 4px
@@ -98,4 +98,25 @@
 
 .test:hover
   cursor: pointer
+
+.projections
+  text-align: center
+
+.projections-max
+  background-color: #D55E00
+  padding-left: 2px
+  padding-right: 2px
+  border-radius: 4px 4px 0 0
+
+.projections-ave
+  background-color: #56B4E9
+  padding-left: 2px
+  padding-right: 2px
+
+.projections-l10
+  background-color: #E69F00
+  padding-left: 2px
+  padding-right: 2px
+  border-radius: 0 0 4px 4px
+
 </style>

@@ -4,7 +4,7 @@
 
   const { smAndUp, xs } = useDisplay();
 
-  const standingsDisplay = ref("League");
+  const standingsDisplay = ref("Wildcard");
   const displayItems = ["League", "Conference", "Division", "Wildcard"];
 
   const westernConference = ref([]);
@@ -109,7 +109,7 @@
       </div>
 
       <div v-if="standingsDisplay === 'Wildcard'" class="wildcard-div">
-        <div :class="{'w-100': xs}">
+        <div :class="{'wild-conf': smAndUp, 'w-100': xs}">
           <h1>Western Conference</h1>
           <div>
             <div>
@@ -160,7 +160,7 @@
             </div>
           </div>
         </div>
-        <div :class="{'w-100': xs}">
+        <div :class="{'wild-conf': smAndUp, 'w-100': xs}">
           <h1>Eastern Conference</h1>
           <div>
             <div>
@@ -264,5 +264,9 @@
   display: flex
   flex-wrap: wrap
   column-gap: 10px
+  justify-content: space-evenly
+
+.wild-conf
+  width: 47%
 
 </style>
