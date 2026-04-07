@@ -53,18 +53,20 @@
   <v-container class="d-flex justify-center" :class="{'w-75': smAndUp, 'w-90': xs}">
     <v-sheet class="w-100" :elevation="1" rounded>
 
+      <h3>Games around today for 2025-2026 season</h3>
+
       <v-expansion-panels v-model="panels" multiple>
-        <v-expansion-panel :title="'Yesterday (' + yesterdayGames.length + ')'" value="yesterday">
+        <v-expansion-panel :title="'Yesterday\'s Games (' + yesterdayGames.length + ')'" value="yesterday">
           <v-expansion-panel-text>
             <AroundTodayGame v-for="(game, i) in yesterdayGames" :key="'yest' + i" :game="game" />
           </v-expansion-panel-text>
         </v-expansion-panel>
-        <v-expansion-panel :title="'Today (' + todayGames.length + ')'" value="today">
+        <v-expansion-panel :title="'Today\'s Games (' + todayGames.length + ')'" value="today">
           <v-expansion-panel-text>
             <AroundTodayGame v-for="(game, i) in todayGames" :key="'today' + i" :game="game" />
           </v-expansion-panel-text>
         </v-expansion-panel>
-        <v-expansion-panel :title="'Tomorrow (' + tomorrowGames.length + ')'" value="tomorrow">
+        <v-expansion-panel :title="'Tomorrow\'s Games (' + tomorrowGames.length + ')'" value="tomorrow">
           <v-expansion-panel-text>
             <AroundTodayGame v-for="(game, i) in tomorrowGames" :key="'tomo' + i" :game="game" />
           </v-expansion-panel-text>
