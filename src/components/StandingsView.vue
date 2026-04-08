@@ -21,6 +21,7 @@
   const standingsStore = useStandingsStore();
 
   const showProjections = ref(false);
+  const projectionsDialog = ref(false);
 
   onMounted(async () => {
     // make sure there's stuff in the store
@@ -62,14 +63,42 @@
         label="Select"
         :width="200"
       />
-      <v-switch
-        v-if="standingsDisplay === 'Wildcard'"
-        v-model="showProjections"
-        color="primary"
-        hide-details
-        inset
-        label="Show point projections"
-      />
+      <div v-if="standingsDisplay === 'Wildcard'" class="projection-switch">
+        <v-switch
+          v-model="showProjections"
+          color="primary"
+          hide-details
+          inset
+          label="Show point projections"
+        />
+
+        <v-btn density="compact" icon="mdi-help-circle-outline" @click="projectionsDialog = true" />
+        <v-dialog v-model="projectionsDialog" width="auto">
+          <v-card
+            max-width="400"
+            prepend-icon="mdi-comment-question-outline"
+            title="Point Projections Explainer"
+          >
+            <v-card-text>
+              <p style="padding-bottom: 8px">
+                Point projections are values showing possible point totals at the end of the season.
+                A points value is applied to the remaining games, and that total is added to the current points total.
+              </p>
+              <div><span style="background-color: #D55E00">&nbsp;MAX&nbsp;</span> This applies maximum points (2 pts) to all remaining games.</div>
+              <div><span style="background-color: #56B4E9">&nbsp;AVE&nbsp;</span> This applies the points per game average for the season thus far.</div>
+              <div><span style="background-color: #E69F00">&nbsp;L10&nbsp;</span> This applies the points per game average from the last 10 games played.</div>
+            </v-card-text>
+            <template #actions>
+              <v-btn
+                class="ms-auto"
+                text="Ok"
+                @click="projectionsDialog = false"
+              />
+            </template>
+          </v-card>
+        </v-dialog>
+
+      </div>
 
       <div v-if="standingsDisplay === 'League'" class="flex-container">
         <div class="flex-items">
@@ -268,5 +297,11 @@
 
 .wild-conf
   width: 47%
+
+.projection-switch
+  display: flex
+  flex-wrap: wrap
+  column-gap: 10px
+  align-items: center
 
 </style>
