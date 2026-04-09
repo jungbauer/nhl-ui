@@ -22,7 +22,6 @@ function useRinkDraw() {
 
   function drawFilledCircle(ctx, x, y, radius, color) {
     ctx.save();
-    // Draw a circle at (200, 200) with radius 80
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fillStyle = color;
@@ -80,25 +79,24 @@ function useRinkDraw() {
     ctx.restore();
   }
 
-  function drawText(ctx, text, x, y) {
+  function drawText(ctx, text, x, y, color = "#cccccc") {
     ctx.font = "15px Arial";
-    // ctx.fillStyle = "#9109df";
-    ctx.fillStyle = "#cccccc";
+    ctx.fillStyle = color;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(text, x, y);
   }
 
-  function drawGoalCircle(value, index, ctx, rx, ry) {
-    const x = centerX + value.details.xCoord;
-    const y = centerY - value.details.yCoord;
-    // drawCircle(ctx, rx(x), ry(y), rx(1), "#9109df");
-    drawFilledCircle(ctx, rx(x), ry(y), rx(2), "#9109df");
+  function drawMarkerCircle(ctx, rx, ry, item, options = {}) {
+    const { color = "#9109df", radius = 2 } = options;
+    const x = centerX + item.details.xCoord;
+    const y = centerY - item.details.yCoord;
+    drawFilledCircle(ctx, rx(x), ry(y), rx(radius), color);
   }
 
-  function drawGoalsText(goals, ctx, portraitDraw) {
-    const landscapeScaleX = ctx.canvas.width / rinkLength;
-    const landscapeScaleY = ctx.canvas.height / rinkWidth;
+  function drawMarkersText(items, ctx, portraitDraw, rinkContext, options = {}) {
+    const { textColor = "#cccccc" } = options;
+    const { scaleX: landscapeScaleX, scaleY: landscapeScaleY } = rinkContext;
     let scaleX = landscapeScaleX;
     let scaleY = landscapeScaleY;
 
@@ -110,56 +108,47 @@ function useRinkDraw() {
       return y * scaleY;
     }
 
-    for (const [index, goal] of goals.entries()) {
+    for (const [index, item] of items.entries()) {
       scaleX = landscapeScaleX;
       scaleY = landscapeScaleY;
-      const x = centerX + goal.details.xCoord;
-      const y = centerY - goal.details.yCoord;
+      const x = centerX + item.details.xCoord;
+      const y = centerY - item.details.yCoord;
 
       if (portraitDraw) {
-        ctx.save(); // Save the current state
+        ctx.save();
         scaleX = ctx.canvas.width / rinkWidth;
         scaleY = ctx.canvas.height / rinkLength;
 
         ctx.rotate(-angle90Radians);
-        // combo of translating to [0,0] and back to needed location
         ctx.translate(-rx(x) - ry(y), -ry(y) + rx(x));
       }
 
-      drawText(ctx, (index + 1).toString(), rx(x), ry(y));
+      drawText(ctx, (index + 1).toString(), rx(x), ry(y), textColor);
 
       if (portraitDraw) {
-        ctx.restore(); // Restore to the state before rotation
+        ctx.restore();
       }
     }
   }
 
-  const drawRink = (canvas, goals, portraitDraw = false) => {
+  const drawRinkBackground = (canvas, portraitDraw = false) => {
     const ctx = canvas.getContext("2d");
     let scaleX = canvas.width / rinkLength;
     let scaleY = canvas.height / rinkWidth;
 
     if (portraitDraw) {
-      // need to translate and rotate canvas context
-      // Translate to the desired rotation point
       ctx.translate(canvas.width, 0);
-      // Rotate clockwise by 90 degrees
       ctx.rotate(angle90Radians);
-      // adjust scaling
       scaleX = canvas.width / rinkWidth;
       scaleY = canvas.height / rinkLength;
     }
 
-    // Helper to convert rink feet to canvas px
     function rx(x) {
       return x * scaleX;
     }
     function ry(y) {
       return y * scaleY;
     }
-
-    // Draw corner radius for testing -- this was super useful
-    // drawCircle(ctx, rx(28),ry(28),rx(28), "#46df09");
 
     // center line
     drawLine(ctx, rx(100), 0, rx(100), ry(85), "#df0909");
@@ -191,20 +180,43 @@ function useRinkDraw() {
     drawLine(ctx, rx(200), ry(85 / 2 - 14), rx(200 - 11), ry(85 / 2 - 11), "#df0909");
     drawLine(ctx, rx(200), ry(85 / 2 + 14), rx(200 - 11), ry(85 / 2 + 11), "#df0909");
     // crease
-    // drawLine(rx(11),ry(85/2 - 4),rx(11 + 4.5),ry(85/2 - 4), "#df0909");
-    // drawLine(rx(11),ry(85/2 + 4),rx(11 + 4.5),ry(85/2 + 4), "#df0909");
-    // drawCircle(rx(11),ry(85/2),rx(6), "#df0909");
     drawCreaseLeft(ctx, rx, ry);
     drawCreaseRight(ctx, rx, ry);
 
-    for (const [index, goal] of goals.entries()) {
-      drawGoalCircle(goal, index + 1, ctx, rx, ry);
-    }
-
-    drawGoalsText(goals, ctx, portraitDraw);
+    return { rx, ry, scaleX, scaleY, portraitDraw };
   };
 
-  return [drawRink, lengthToWidthRatio];
+  const drawMarkers = (canvas, items, portraitDraw, rinkContext, resize, options = {}) => {
+    const ctx = canvas.getContext("2d");
+    const { rx, ry } = rinkContext;
+    const { color = "#9109df", radius = 2, showNumbers = true } = options;
+
+    // Clear the canvas
+    // using SetTransform because translations and rotations change how clearRect behaves.
+    // https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing#:~:text=Dealing%20with%20transformed%20coordinates,visible%20portion%20of%20the%20canvas.&text=//%20Store%20the%20current%20transformation,this%20performance%20difference%20be%20irrelevant.
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+
+    if (portraitDraw && resize) {
+      // using resize to stop the canvas being rotated when changing between goals and events.
+      ctx.translate(canvas.width, 0);
+      ctx.rotate(angle90Radians);
+    }
+
+    // Draw markers
+    for (const item of items) {
+      drawMarkerCircle(ctx, rx, ry, item, { color, radius });
+    }
+
+    // Draw numbers if enabled
+    if (showNumbers && items.length > 0) {
+      drawMarkersText(items, ctx, portraitDraw, rinkContext, { textColor: options.textColor });
+    }
+  };
+
+  return { drawRinkBackground, drawMarkers, lengthToWidthRatio };
 }
 
 export default useRinkDraw;
