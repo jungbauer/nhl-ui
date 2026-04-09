@@ -3,6 +3,7 @@
     team: Object,
     index: Number,
     projections: { type: Boolean, default: false },
+    highlight: { type: Boolean, default: false },
   });
   const router = useRouter();
 
@@ -35,7 +36,7 @@
       <v-sheet
         v-bind="props"
         class="test"
-        color="blue-grey-lighten-5"
+        :color="highlight ? 'red-lighten-4' : 'blue-grey-lighten-5'"
         :elevation="isHovering ? 5 : 1"
         rounded
         @click="goToSchedule"

@@ -6,6 +6,7 @@
 
   const standingsDisplay = ref("Wildcard");
   const displayItems = ["League", "Conference", "Division", "Wildcard"];
+  const divisionHighlight = ref("none");
 
   const westernConference = ref([]);
   const easternConference = ref([]);
@@ -22,6 +23,10 @@
 
   const showProjections = ref(false);
   const projectionsDialog = ref(false);
+
+  function setDivHighlight(division) {
+    divisionHighlight.value = divisionHighlight.value === division ? "none" : division;
+  }
 
   onMounted(async () => {
     // make sure there's stuff in the store
@@ -142,20 +147,22 @@
           <h1>Western Conference</h1>
           <div>
             <div>
-              <h2>Pacific Division</h2>
+              <h2 class="division-header" @click="setDivHighlight('Pacific')">Pacific Division</h2>
               <StandingsTeam
                 v-for="(team, i) in pacificDivision.slice(0,3)"
                 :key="'wpd' + i"
+                :highlight="team.division === divisionHighlight"
                 :index="i"
                 :projections="showProjections"
                 :team="team"
               />
             </div>
             <div>
-              <h2>Central Division</h2>
+              <h2 class="division-header" @click="setDivHighlight('Central')">Central Division</h2>
               <StandingsTeam
                 v-for="(team, i) in centralDivision.slice(0,3)"
                 :key="'wcd' + i"
+                :highlight="team.division === divisionHighlight"
                 :index="i"
                 :projections="showProjections"
                 :team="team"
@@ -166,6 +173,7 @@
               <StandingsTeam
                 v-for="(team, i) in westernWildcards"
                 :key="'wwc' + i"
+                :highlight="team.division === divisionHighlight"
                 :index="i"
                 :projections="showProjections"
                 :team="team"
@@ -179,6 +187,7 @@
                     <StandingsTeam
                       v-for="(team, i) in westernRemaining"
                       :key="'wrem' + i"
+                      :highlight="team.division === divisionHighlight"
                       :index="i"
                       :projections="showProjections"
                       :team="team"
@@ -193,20 +202,22 @@
           <h1>Eastern Conference</h1>
           <div>
             <div>
-              <h2>Atlantic Division</h2>
+              <h2 class="division-header" @click="setDivHighlight('Atlantic')">Atlantic Division</h2>
               <StandingsTeam
                 v-for="(team, i) in atlanticDivision.slice(0,3)"
                 :key="'wad' + i"
+                :highlight="team.division === divisionHighlight"
                 :index="i"
                 :projections="showProjections"
                 :team="team"
               />
             </div>
             <div>
-              <h2>Metropolitan Division</h2>
+              <h2 class="division-header" @click="setDivHighlight('Metropolitan')">Metropolitan Division</h2>
               <StandingsTeam
                 v-for="(team, i) in metropolitanDivision.slice(0,3)"
                 :key="'wmd' + i"
+                :highlight="team.division === divisionHighlight"
                 :index="i"
                 :projections="showProjections"
                 :team="team"
@@ -217,6 +228,7 @@
               <StandingsTeam
                 v-for="(team, i) in easternWildcards"
                 :key="'wec' + i"
+                :highlight="team.division === divisionHighlight"
                 :index="i"
                 :projections="showProjections"
                 :team="team"
@@ -230,6 +242,7 @@
                     <StandingsTeam
                       v-for="(team, i) in easternRemaining"
                       :key="'erem' + i"
+                      :highlight="team.division === divisionHighlight"
                       :index="i"
                       :projections="showProjections"
                       :team="team"
@@ -303,5 +316,8 @@
   flex-wrap: wrap
   column-gap: 10px
   align-items: center
+
+.division-header:hover
+  cursor: pointer
 
 </style>
