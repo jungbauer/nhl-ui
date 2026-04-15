@@ -36,8 +36,6 @@
   onMounted(async () => {
     const aroundData = await startFetch();
 
-    console.log("aroundData", aroundData);
-
     for (const game of aroundData.yesterday) {
       yesterdayGames.value.push(mapApiGame(game));
     }
