@@ -8,11 +8,11 @@ function goalDraw() {
   const centerY = 85 / 2;
   const angle90Radians = (90 * Math.PI) / 180;
 
-  function drawGoalCircle(value, index, ctx, rx, ry) {
+  function drawGoalCircle(value, index, ctx, rx, ry, color) {
     const x = centerX + value.details.xCoord;
     const y = centerY - value.details.yCoord;
     // drawCircle(ctx, rx(x), ry(y), rx(1), "#9109df");
-    drawFilledCircle(ctx, rx(x), ry(y), rx(2), "#9109df");
+    drawFilledCircle(ctx, rx(x), ry(y), rx(2), color);
   }
 
   function drawGoalsText(goals, ctx, portraitDraw) {
@@ -53,7 +53,7 @@ function goalDraw() {
     }
   }
 
-  const drawGoals = (goalCanvas, goals, portraitDraw) => {
+  const drawGoals = (goalCanvas, goals, portraitDraw, color) => {
     const ctx = goalCanvas.getContext("2d");
     let scaleX = goalCanvas.width / rinkLength;
     let scaleY = goalCanvas.height / rinkWidth;
@@ -78,7 +78,7 @@ function goalDraw() {
     }
 
     for (const [index, goal] of goals.entries()) {
-      drawGoalCircle(goal, index + 1, ctx, rx, ry);
+      drawGoalCircle(goal, index + 1, ctx, rx, ry, color);
     }
 
     drawGoalsText(goals, ctx, portraitDraw);
