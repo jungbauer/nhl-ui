@@ -2,12 +2,15 @@
   import drawRink2 from "@/utils/drawRink2.js";
   import goalDraw from "@/utils/goalDraw.js";
 
-  const props = defineProps(["goals"]);
+  const props = defineProps(["goals", "sog"]);
   const [drawRink, lengthToWidthRatio] = drawRink2();
   const [drawGoals] = goalDraw();
 
   const elementRef = ref(null);
   const elementRef2 = ref(null);
+
+  const displaySog = ref(false);
+  provide("displaySog", displaySog);
 
   onMounted(() => {
     let portraitDraw = false;
@@ -41,15 +44,30 @@
     goalsCanvas.width = canvas.width;
     goalsCanvas.height = canvas.height;
     goalsCanvas.style.borderRadius = borderRadius.toString() + "px";
-    drawGoals(goalsCanvas, props.goals, portraitDraw);
+    drawGoals(goalsCanvas, props.goals, portraitDraw, "#9109df");
+
+    // -----------------------------------------------------------------------------------------
+    const sogCanvas = document.querySelector("#sog");
+    sogCanvas.width = canvas.width;
+    sogCanvas.height = canvas.height;
+    sogCanvas.style.borderRadius = borderRadius.toString() + "px";
+    drawGoals(sogCanvas, props.sog, portraitDraw, "#092ddf");
   });
 </script>
 
 <template>
+  <v-switch
+    v-model="displaySog"
+    color="primary"
+    hide-details
+    inset
+    label="display shots-on-goal"
+  />
   <div id="rink-container" ref="elementRef">
     <div ref="elementRef2" class="rink-container2">
       <canvas id="rink" />
       <canvas id="goals" />
+      <canvas v-show="displaySog" id="sog" />
     </div>
   </div>
 </template>
@@ -75,8 +93,15 @@
   box-shadow: 0 0 10px #aaa
 
 #goals
+  z-index: 3
+  background: rgb(255 255 255 / 0)
+  border: none
+  box-shadow: none
+
+#sog
   z-index: 2
   background: rgb(255 255 255 / 0)
   border: none
   box-shadow: none
+
 </style>

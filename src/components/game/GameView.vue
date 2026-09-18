@@ -19,6 +19,7 @@
     playData.value.awayTeam = apiPlayData.awayTeam;
     playData.value.gameOutcome = apiPlayData.gameOutcome;
     playData.value.goals = apiPlayData.plays.filter((play) => play.typeDescKey === "goal");
+    playData.value.sog = apiPlayData.plays.filter((play) => play.typeDescKey === "shot-on-goal");
     playData.value.rosterSpots = apiPlayData.rosterSpots;
 
     // add player info to goals
@@ -26,6 +27,14 @@
       goal.mainIndex = index;
       goal.scoringPlayer = playData.value.rosterSpots.find(
         (player) => player.playerId === goal.details.scoringPlayerId,
+      );
+    }
+
+    // add player info to sog
+    for (const [index, shot] of playData.value.sog.entries()) {
+      shot.mainIndex = index;
+      shot.shootingPlayer = playData.value.rosterSpots.find(
+        (player) => player.playerId === shot.details.shootingPlayerId,
       );
     }
 
@@ -83,7 +92,7 @@
         />
 
         <hr>
-        <RinkView :goals="playData.goals" />
+        <RinkView :goals="playData.goals" :sog="playData.sog" />
       </div>
     </v-sheet>
   </v-container>
